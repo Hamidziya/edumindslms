@@ -1,5 +1,6 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = require('../config/db').sequelize;
+const bcrypt = require('bcryptjs');
 
 const Course = sequelize.define('Course', {
   title: { type: DataTypes.STRING, allowNull: false },

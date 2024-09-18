@@ -10,6 +10,6 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
-sequelize.sync().then(() => console.log('DB Synced'));
+//sequelize.sync().then(() => console.log('DB Synced'));
 
 module.exports = app;
