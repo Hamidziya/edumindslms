@@ -8,6 +8,10 @@ const User = sequelize.define('User', {
   companyName: { type: DataTypes.STRING },
   password: { type: DataTypes.STRING, allowNull: false },
   role: { type: DataTypes.ENUM('admin', 'manager', 'teacher', 'student'), allowNull: false },
+  courseIds: {
+    type: DataTypes.JSON, 
+    defaultValue: [], 
+  },
   isDelete: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,  
