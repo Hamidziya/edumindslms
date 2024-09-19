@@ -34,18 +34,27 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+exports.saveUser = async (req, res)=>{
+  try{
+    let toSave = req.body
+    //let cardId = req.body.cardId
+    let newuser = await User.create(toSave)
+    let id = newuser.id
+
+  }catch{
+
+  }
+}
+
 exports.getUserCourse = async (req, res) => {
   try {
     const userId = req.body.userId;
-
     const user = await User.findByPk(userId);
 
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
     const courseIds = user.courseIds.map(course => course.courseId);
-
     const courses = await Course.findAll({
       where: {
         courseId: courseIds
@@ -81,9 +90,7 @@ exports.getUserCourseDetail = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
     const courseIds = user.courseIds.map(course => course.courseId);
-
     const courses = await Course.findAll({
       where: {
         courseId: courseIds
