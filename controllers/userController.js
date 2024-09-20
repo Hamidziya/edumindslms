@@ -38,14 +38,14 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.saveUser = async (req, res) => {
-  try {
-    let toSave = req.body;
-    //let cardId = req.body.cardId
-    let newuser = await User.create(toSave);
-    let id = newuser.id;
-  } catch {}
-};
+// exports.saveUser = async (req, res) => {
+//   try {
+//     let toSave = req.body;
+//     //let cardId = req.body.cardId
+//     let newuser = await User.create(toSave);
+//     let id = newuser.id;
+//   } catch {}
+// };
 
 exports.getUserCourse = async (req, res) => {
   try {
