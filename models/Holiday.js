@@ -1,29 +1,29 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db").sequelize;
 
-const Course = sequelize.define("Course", {
-  courseId: {
+const Holiday = sequelize.define("Holiday", {
+  holidayId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   isDelete: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
+  },
+  title: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  price: {
-    type: DataTypes.DECIMAL,
+  date: {
+    type: DataTypes.DATE,
     allowNull: false,
   },
 });
 
-module.exports = Course;
+module.exports = Holiday;
