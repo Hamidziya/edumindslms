@@ -121,9 +121,10 @@ exports.saveHoliday = async (req, res) => {
     const toSave = req.body.data;
 
     if (req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Only Admin Can Create New Holidays" });
+      return res.status(403).json({
+        message: "Only Admin Can Create New Holidays",
+        status: "error",
+      });
     }
 
     const newholiday = await Holiday.create(toSave);
@@ -189,7 +190,7 @@ exports.removeSpecificHoliday = async (req, res) => {
     const toUpdate = { isDelete: true };
 
     await Holiday.update(toUpdate, {
-      where: { holidayId: req.body.holidayId },
+      where: { holidayId: req.body.data.holidayId },
     });
     res
       .status(200)
