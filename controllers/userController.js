@@ -139,65 +139,65 @@ exports.saveHoliday = async (req, res) => {
   }
 };
 
-// exports.updateHoliday = async (req, res) => {
-//   const toUpdate = req.body;
+exports.updateHoliday = async (req, res) => {
+  const toUpdate = req.body;
 
-//   try {
-//     if (req.user.role !== "admin") {
-//       return res
-//         .status(403)
-//         .json({ message: "Only Admin Can Update The Holiday" });
-//     }
-//     await Holiday.update(toUpdate, {
-//       where: { holidayId: req.body.holidayId },
-//     });
-//     res
-//       .status(200)
-//       .json({ message: "Holiday Updated successfully", status: "success" });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+  try {
+    if (req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Only Admin Can Update The Holiday" });
+    }
+    await Holiday.update(toUpdate, {
+      where: { holidayId: req.body.holidayId },
+    });
+    res
+      .status(200)
+      .json({ message: "Holiday Updated successfully", status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
-// exports.removeHolidayList = async (req, res) => {
-//   try {
-//     if (req.user.role !== "admin") {
-//       return res
-//         .status(403)
-//         .json({ message: "Only Admin Can Remove The Holiday List" });
-//     }
-//     const toUpdate = { isDelete: true };
+exports.removeHolidayList = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Only Admin Can Remove The Holiday List" });
+    }
+    const toUpdate = { isDelete: true };
 
-//     await Holiday.update(toUpdate, {
-//       where: { isDelete: false },
-//     });
-//     res
-//       .status(200)
-//       .json({ message: "Holiday Removed successfully", status: "success" });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    await Holiday.update(toUpdate, {
+      where: { isDelete: false },
+    });
+    res
+      .status(200)
+      .json({ message: "Holiday Removed successfully", status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
-// exports.removeSpecificHoliday = async (req, res) => {
-//   try {
-//     if (req.user.role !== "admin") {
-//       return res
-//         .status(403)
-//         .json({ message: "Only Admin Can Remove The Holiday List" });
-//     }
-//     const toUpdate = { isDelete: true };
+exports.removeSpecificHoliday = async (req, res) => {
+  try {
+    if (req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ message: "Only Admin Can Remove The Holiday List" });
+    }
+    const toUpdate = { isDelete: true };
 
-//     await Holiday.update(toUpdate, {
-//       where: { holidayId: req.body.holidayId },
-//     });
-//     res
-//       .status(200)
-//       .json({ message: "Holiday Removed successfully", status: "success" });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    await Holiday.update(toUpdate, {
+      where: { holidayId: req.body.holidayId },
+    });
+    res
+      .status(200)
+      .json({ message: "Holiday Removed successfully", status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 exports.getActiveHolidayList = async (req, res) => {
   try {
