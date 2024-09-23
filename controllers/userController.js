@@ -51,7 +51,15 @@ exports.byUserCourse = async (req, res) => {
     let existingCourses = user.courseIds || [];
 
     if (Array.isArray(newCourses)) {
-      existingCourses = [...existingCourses, ...newCourses];
+      newCourses.forEach((newCourse) => {
+        const courseExists = existingCourses.some(
+          (existingCourse) => existingCourse.courseId === newCourse.courseId
+        );
+
+        if (!courseExists) {
+          existingCourses.push(newCourse);
+        }
+      });
     }
 
     await user.update({ courseIds: existingCourses });
