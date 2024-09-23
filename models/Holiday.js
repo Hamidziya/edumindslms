@@ -16,12 +16,19 @@ const Holiday = sequelize.define("Holiday", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
+  day: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  description: {
+    type: DataTypes.TEXT,
+  },
   date: {
     type: DataTypes.DATE,
+    allowNull: false,
+  },
+  region: {
+    type: DataTypes.TEXT,
     allowNull: false,
   },
 });

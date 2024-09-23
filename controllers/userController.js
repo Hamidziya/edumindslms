@@ -127,7 +127,7 @@ exports.saveHoliday = async (req, res) => {
       });
     }
 
-    const newholiday = await Holiday.create(toSave);
+    const newholiday = await Holiday.bulkCreate(toSave);
 
     res.status(200).json({
       message: "New Holiday Added",
