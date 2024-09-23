@@ -38,6 +38,54 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+exports.byUserCourse = async (req, res) => {
+  const { userid, courseIds: newCourses } = req.body;
+
+  try {
+    const user = await User.findByPk(userid);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    let existingCourses = user.courseIds || [];
+
+    if (Array.isArray(newCourses)) {
+      existingCourses = [...existingCourses, ...newCourses];
+    }
+
+    await user.update({ courseIds: existingCourses });
+
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteUserCourse = async (req, res) => {
+  const { userid, courseIdToDelete } = req.body;
+
+  try {
+    const user = await User.findByPk(userid);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    let existingCourses = user.courseIds || [];
+
+    const updatedCourses = existingCourses.filter(
+      (course) => course.courseId !== courseIdToDelete
+    );
+
+    await user.update({ courseIds: updatedCourses });
+
+    res.status(200).json({ message: "Course removed successfully", user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // exports.saveUser = async (req, res) => {
 //   try {
 //     let toSave = req.body;
