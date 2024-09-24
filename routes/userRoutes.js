@@ -13,9 +13,9 @@ const router = express.Router();
 router.post("/create", auth, createUser);
 router.post("/updateUser", auth, updateUser);
 router.post("/getUserCourse", auth, getUserCourse);
-router.post("/saveHoliday", auth, saveHoliday);
-router.post("/getActiveHolidayList", auth, getActiveHolidayList);
-router.post("/removeSpecificHoliday", auth, removeSpecificHoliday);
+// router.post("/saveHoliday", auth, saveHoliday);
+// router.post("/getActiveHolidayList", auth, getActiveHolidayList);
+// router.post("/removeSpecificHoliday", auth, removeSpecificHoliday);
 router.post("/byUserCourse", auth, byUserCourse);
 
 module.exports = router;
