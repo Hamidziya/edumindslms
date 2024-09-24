@@ -14,6 +14,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/holiday", holidayRoutes);
+app.get("/", (req, res) => {
+  return res.json({ message: "No active holidays found" });
+});
 
 //sequelize.sync().then(() => console.log('DB Synced'));
 

@@ -132,3 +132,4 @@ dist
 # modules
 package-lock.json
 
+.vercel
