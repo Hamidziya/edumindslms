@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 5000;
     await sequelize.sync({ alter: true });
     console.log("Database synchronized successfully.");
 
-    // Check if the environment is not Vercel (i.e., running locally)
     if (process.env.NODE_ENV !== "production") {
       app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);

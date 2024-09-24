@@ -13,8 +13,8 @@ const sequelize = new Sequelize(
     dialectModule: require("mysql2"),
     dialectOptions: {
       ssl: {
-        require: true, // Enforce SSL connection
-        rejectUnauthorized: false, // Optional: For self-signed certificates, set to false if necessary
+        require: true,
+        rejectUnauthorized: false,
       },
     },
   }
