@@ -1,4 +1,5 @@
 const Course = require("../models/Course");
+const Detail = require("../models/Detail");
 
 exports.createCourse = async (req, res) => {
   const { title, description, price } = req.body;
