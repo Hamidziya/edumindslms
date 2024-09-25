@@ -15,9 +15,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/holiday", holidayRoutes);
 app.get("/", (req, res) => {
-  return res.json({
-    message: "Hello Miss Priya Welcome To Eduminds Learning Portal.",
-  });
+  return res.json({ message: "Welcome To Eduminds Learning Portal" });
 });
 
 //sequelize.sync().then(() => console.log('DB Synced'));
