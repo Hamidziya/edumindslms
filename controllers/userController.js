@@ -47,7 +47,6 @@ exports.byUserCourse = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
     let existingCourses = user.courseIds || [];
 
     if (Array.isArray(newCourses)) {
@@ -79,13 +78,10 @@ exports.deleteUserCourse = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
     let existingCourses = user.courseIds || [];
-
     const updatedCourses = existingCourses.filter(
       (course) => course.courseId !== courseIdToDelete
     );
-
     await user.update({ courseIds: updatedCourses });
 
     res.status(200).json({ message: "Course removed successfully", user });
