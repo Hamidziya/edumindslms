@@ -23,12 +23,11 @@ exports.createUser = async (req, res) => {
 };
 
 exports.createUsers = async (req, res) => {
-  const users = req.body.data; // Array of user objects
+  const users = req.body.data;
   if (!Array.isArray(users)) {
     return res.status(400).json({ message: "Invalid data format" });
   }
 
-  // Check authorization
   for (const user of users) {
     const { role } = user;
     if (
@@ -43,7 +42,6 @@ exports.createUsers = async (req, res) => {
   }
 
   try {
-    // Manually hash passwords for all users before bulkCreate
     const hashedUsers = await Promise.all(
       users.map(async (user) => {
         user.password = await bcrypt.hash(user.password, 10);
@@ -51,7 +49,6 @@ exports.createUsers = async (req, res) => {
       })
     );
 
-    // Bulk create users with hashed passwords
     const newUsers = await User.bulkCreate(hashedUsers);
     res.status(201).json(newUsers);
   } catch (err) {
@@ -127,15 +124,6 @@ exports.deleteUserCourse = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-// exports.saveUser = async (req, res) => {
-//   try {
-//     let toSave = req.body;
-//     //let cardId = req.body.cardId
-//     let newuser = await User.create(toSave);
-//     let id = newuser.id;
-//   } catch {}
-// };
 
 exports.getUserCourse = async (req, res) => {
   try {
