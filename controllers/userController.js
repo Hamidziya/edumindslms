@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const Course = require("../models/Course");
 const Holiday = require("../models/Holiday");
+const Attendance = require("../models/Attendance");
 
 exports.createUser = async (req, res) => {
   const { username, email, password, role } = req.body;
@@ -16,6 +17,43 @@ exports.createUser = async (req, res) => {
   try {
     const newUser = await User.create({ username, email, password, role });
     res.status(201).json(newUser);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.createUsers = async (req, res) => {
+  const users = req.body.data; // Array of user objects
+  if (!Array.isArray(users)) {
+    return res.status(400).json({ message: "Invalid data format" });
+  }
+
+  // Check authorization
+  for (const user of users) {
+    const { role } = user;
+    if (
+      req.user.role !== "admin" &&
+      !(
+        (req.user.role === "teacher" || req.user.role === "manager") &&
+        role === "student"
+      )
+    ) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+  }
+
+  try {
+    // Manually hash passwords for all users before bulkCreate
+    const hashedUsers = await Promise.all(
+      users.map(async (user) => {
+        user.password = await bcrypt.hash(user.password, 10);
+        return user;
+      })
+    );
+
+    // Bulk create users with hashed passwords
+    const newUsers = await User.bulkCreate(hashedUsers);
+    res.status(201).json(newUsers);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

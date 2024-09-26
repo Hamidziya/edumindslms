@@ -5,6 +5,12 @@ const bcrypt = require("bcryptjs");
 const User = sequelize.define(
   "users",
   {
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     username: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false },
     companyName: { type: DataTypes.STRING },
@@ -34,6 +40,12 @@ const User = sequelize.define(
 
 User.beforeCreate(async (user) => {
   user.password = await bcrypt.hash(user.password, 10);
+});
+
+User.beforeUpdate(async (user) => {
+  if (user.changed("password")) {
+    user.password = await bcrypt.hash(user.password, 10);
+  }
 });
 
 module.exports = User;
