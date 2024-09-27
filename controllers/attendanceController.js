@@ -34,13 +34,32 @@ exports.getAttendance = async (req, res) => {
     //   //companyName: "Eduminds"
     // });
 
-    res
-      .status(200)
-      .json({
-        message: "Attendance List",
-        status: "success",
-        data: attendance,
-      });
+    res.status(200).json({
+      message: "Attendance List",
+      status: "success",
+      data: attendance,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteAttendance = async (req, res) => {
+  const attendanceId = req.body.attendanceId;
+
+  try {
+    const attendance = await Attendance.findByPk(attendanceId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Attendance not found" });
+    }
+    await attendance.update({ isDelete: true });
+
+    res.status(200).json({
+      message: "Attendance List",
+      status: "success",
+      data: attendance,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -18,6 +18,10 @@ const Attendance = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    isDelete: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
