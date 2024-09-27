@@ -73,6 +73,29 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+exports.getUsers = async (req, res) => {
+  const userId = req.body.userId;
+
+  try {
+    const users = await User.findAll({
+      where: {
+        isDelete: false,
+      },
+    });
+    if (!users) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "User List",
+      status: "success",
+      data: users,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.byUserCourse = async (req, res) => {
   const { userid, courseIds: newCourses } = req.body;
 

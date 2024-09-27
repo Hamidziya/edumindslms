@@ -5,7 +5,6 @@ exports.createCourse = async (req, res) => {
   const { title, description, price } = req.body;
 
   try {
-    // Create a new course
     const newCourse = await Course.create({
       title,
       description,
@@ -34,7 +33,6 @@ exports.updateCourse = async (req, res) => {
       username: username,
       email: email || user.email,
       role: role || user.role,
-      //companyName: "Eduminds"
     });
 
     res.status(200).json({ message: "User updated successfully", user });
