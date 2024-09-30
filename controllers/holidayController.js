@@ -101,3 +101,19 @@ exports.getActiveHolidayList = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getActiveHolidayDetail = async (req, res) => {
+  try {
+    const holidays = await Holiday.findAll({
+      where: { title: "Chrismas" },
+    });
+
+    if (holidays.length === 0) {
+      return res.status(404).json({ message: "No active holidays found" });
+    }
+
+    res.status(200).json(holidays);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
