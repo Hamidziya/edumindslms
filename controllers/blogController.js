@@ -13,43 +13,48 @@ exports.saveBlog = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
+exports.getBlogList = async (req, res) => {
+  const blogId = req.body.blogId;
+
   try {
-    const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+      },
+    });
+    if (!blogs) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
-
-    const token = jwt.sign(
-      { id: user.userId, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
-    res.json({ user, token });
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.loginDummy = async (req, res) => {
-  const { email, password } = req.body;
+exports.getBlogDetail = async (req, res) => {
+  const blogId = req.body.blogId;
+
   try {
-    const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+        blogId: blogId,
+      },
+    });
+    if (!blogs) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
-
-    const token = jwt.sign(
-      { id: user.userId, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
-    res.json({ user, token });
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
