@@ -51,10 +51,52 @@ exports.getBlogDetail = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Blog List",
+      message: "Blog Detail",
       status: "success",
       data: blogs,
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateBlog = async (req, res) => {
+  const toUpdate = req.body.data;
+  const blogId = req.body.data.userid;
+
+  try {
+    const [updated] = await Blog.update(toUpdate, {
+      where: { id: blogId },
+    });
+
+    if (updated) {
+      res
+        .status(200)
+        .json({ message: "Blog updated successfully", status: "success" });
+    } else {
+      res.status(404).json({ message: "Blog not found", status: "error" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteBlog = async (req, res) => {
+  const toUpdate = { isDelete: false };
+  const blogId = req.body.data.userid;
+
+  try {
+    const [updated] = await Blog.update(toUpdate, {
+      where: { id: blogId },
+    });
+
+    if (updated) {
+      res
+        .status(200)
+        .json({ message: "Blog Deleted successfully", status: "success" });
+    } else {
+      res.status(404).json({ message: "Blog not found", status: "error" });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
