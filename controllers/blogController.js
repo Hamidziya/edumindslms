@@ -65,8 +65,8 @@ exports.updateBlog = async (req, res) => {
   const blogId = req.body.data.userid;
 
   try {
-    const [updated] = await Blog.update(toUpdate, {
-      where: { id: blogId },
+    const updated = await Blog.update(toUpdate, {
+      where: { blogId: blogId },
     });
 
     if (updated) {
@@ -83,11 +83,11 @@ exports.updateBlog = async (req, res) => {
 
 exports.deleteBlog = async (req, res) => {
   const toUpdate = { isDelete: false };
-  const blogId = req.body.data.userid;
+  const blogId = req.body.blogId;
 
   try {
-    const [updated] = await Blog.update(toUpdate, {
-      where: { id: blogId },
+    const updated = await Blog.update(toUpdate, {
+      where: { blogId: blogId },
     });
 
     if (updated) {
