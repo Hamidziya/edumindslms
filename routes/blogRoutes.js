@@ -7,7 +7,7 @@ const auth = require("../middleware/auth");
 const router = express.Router();
 
 router.post("/saveBlog", saveBlog);
-router.post("/getBlogList", getBlogList);
-router.post("/getBlogDetail", getBlogDetail);
+router.get("/getBlogList", getBlogList);
+router.get("/getBlogDetail", getBlogDetail);
 
 module.exports = router;
