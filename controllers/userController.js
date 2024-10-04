@@ -74,7 +74,7 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.getUsers = async (req, res) => {
-  const userId = req.body.userId;
+  //const userId = req.body.userId;
 
   try {
     const users = await User.findAll({
