@@ -101,3 +101,24 @@ exports.deleteBlog = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.deleteReview = async (req, res) => {
+  const toUpdate = { isDelete: false };
+  const blogId = req.body.blogId;
+
+  try {
+    const updated = await Blog.update(toUpdate, {
+      where: { blogId: blogId },
+    });
+
+    if (updated) {
+      res
+        .status(200)
+        .json({ message: "Blog Deleted successfully", status: "success" });
+    } else {
+      res.status(404).json({ message: "Blog not found", status: "error" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
