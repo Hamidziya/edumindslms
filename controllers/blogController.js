@@ -122,3 +122,23 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+exports.updateReview = async (req, res) => {
+  const toUpdate = req.body.data;
+  const blogId = req.body.data.userid;
+
+  try {
+    const updated = await Blog.update(toUpdate, {
+      where: { blogId: blogId },
+    });
+
+    if (updated) {
+      res
+        .status(200)
+        .json({ message: "Blog updated successfully", status: "success" });
+    } else {
+      res.status(404).json({ message: "Blog not found", status: "error" });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
