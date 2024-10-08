@@ -166,3 +166,26 @@ exports.getReviewDetail = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getReviewList = async (req, res) => {
+  //const blogId = req.body.blogId;
+
+  try {
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+      },
+    });
+    if (!blogs) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
+
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
