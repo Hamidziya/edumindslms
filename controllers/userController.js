@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const Course = require("../models/Course");
-const Holiday = require("../models/Holiday");
-const Attendance = require("../models/Attendance");
+// const Holiday = require("../models/Holiday");
+// const Attendance = require("../models/Attendance");
 
 exports.createUser = async (req, res) => {
   const { username, email, password, role } = req.body;
