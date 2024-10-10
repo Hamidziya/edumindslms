@@ -16,7 +16,9 @@ exports.createUser = async (req, res) => {
   }
   try {
     const newUser = await User.create({ username, email, password, role });
-    res.status(201).json(newUser);
+    res
+      .status(201)
+      .json({ message: "User Created", status: "success", data: newUser });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -50,7 +52,9 @@ exports.createUsers = async (req, res) => {
     );
 
     const newUsers = await User.bulkCreate(hashedUsers);
-    res.status(201).json(newUsers);
+    res
+      .status(201)
+      .json({ message: "user created", status: "success", newUsers });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -67,7 +71,13 @@ exports.updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     await user.update(toUpdate);
-    res.status(200).json({ message: "User updated successfully", user });
+    res
+      .status(200)
+      .json({
+        message: "User updated successfully",
+        status: "success",
+        data: user,
+      });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
