@@ -92,23 +92,3 @@ exports.getActiveCourseListDummy = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-exports.deleteCourseDummy = async (req, res) => {
-  const courseId = req.body.courseId;
-
-  try {
-    const course = await Course.findByPk(courseId);
-
-    if (!course) {
-      return res.status(404).json({ message: "Course not found" });
-    }
-
-    await course.update({
-      isDelete: true,
-    });
-
-    res.status(200).json({ message: "Course updated successfully", user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
