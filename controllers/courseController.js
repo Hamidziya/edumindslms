@@ -76,3 +76,19 @@ exports.getActiveCourseList = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getActiveCourseListDummy = async (req, res) => {
+  try {
+    const courses = await Course.findAll({
+      where: { isDelete: false },
+    });
+
+    if (courses.length === 0) {
+      return res.status(404).json({ message: "No active Course found" });
+    }
+
+    res.status(200).json(courses);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
