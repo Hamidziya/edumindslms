@@ -134,22 +134,22 @@ exports.getSpecificHoliday = async (req, res) => {
   }
 };
 
-exports.removeSpecificHolidayDummy = async (req, res) => {
-  try {
-    if (req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Only Admin Can Remove The Holiday List" });
-    }
-    const toUpdate = { isDelete: true };
+// exports.removeSpecificHolidayDummy = async (req, res) => {
+//   try {
+//     if (req.user.role !== "admin") {
+//       return res
+//         .status(403)
+//         .json({ message: "Only Admin Can Remove The Holiday List" });
+//     }
+//     const toUpdate = { isDelete: true };
 
-    await Holiday.update(toUpdate, {
-      where: { holidayId: req.body.data.holidayId },
-    });
-    res
-      .status(200)
-      .json({ message: "Holiday Removed successfully", status: "success" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+//     await Holiday.update(toUpdate, {
+//       where: { holidayId: req.body.data.holidayId },
+//     });
+//     res
+//       .status(200)
+//       .json({ message: "Holiday Removed successfully", status: "success" });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
