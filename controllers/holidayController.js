@@ -35,12 +35,14 @@ exports.updateHoliday = async (req, res) => {
         .status(403)
         .json({ message: "Only Admin Can Update The Holiday" });
     }
-    await Holiday.update(toUpdate, {
+    let result = await Holiday.update(toUpdate, {
       where: { holidayId: req.body.holidayId },
     });
-    res
-      .status(200)
-      .json({ message: "Holiday Updated successfully", status: "success" });
+    res.status(200).json({
+      message: "Holiday Updated successfully",
+      status: "success",
+      data: result,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -112,7 +114,9 @@ exports.getActiveHolidayDetail = async (req, res) => {
       return res.status(404).json({ message: "No active holidays found" });
     }
 
-    res.status(200).json(holidays);
+    res
+      .status(200)
+      .json({ message: "Holiday Detail", status: "success", data: holidays });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
