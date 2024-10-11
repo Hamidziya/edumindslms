@@ -71,13 +71,11 @@ exports.updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     await user.update(toUpdate);
-    res
-      .status(200)
-      .json({
-        message: "User updated successfully",
-        status: "success",
-        data: user,
-      });
+    res.status(200).json({
+      message: "User updated successfully",
+      status: "success",
+      data: user,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -316,36 +314,6 @@ exports.deleteUserCourseDummy = async (req, res) => {
 };
 
 exports.byUserCourseDummy = async (req, res) => {
-  const { userid, courseIds: newCourses } = req.body;
-
-  try {
-    const user = await User.findByPk(userid);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    let existingCourses = user.courseIds || [];
-
-    if (Array.isArray(newCourses)) {
-      newCourses.forEach((newCourse) => {
-        const courseExists = existingCourses.some(
-          (existingCourse) => existingCourse.courseId === newCourse.courseId
-        );
-
-        if (!courseExists) {
-          existingCourses.push(newCourse);
-        }
-      });
-    }
-
-    await user.update({ courseIds: existingCourses });
-
-    res.status(200).json({ message: "User updated successfully", user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-exports.byUserCourseDummy2 = async (req, res) => {
   const { userid, courseIds: newCourses } = req.body;
 
   try {
