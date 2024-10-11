@@ -114,7 +114,11 @@ exports.deleteReview = async (req, res) => {
     if (updated) {
       res
         .status(200)
-        .json({ message: "Blog Deleted successfully", status: "success" });
+        .json({
+          message: "Blog Deleted successfully",
+          status: "success",
+          data: updated,
+        });
     } else {
       res.status(404).json({ message: "Blog not found", status: "error" });
     }
@@ -122,6 +126,7 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 exports.updateReview = async (req, res) => {
   const toUpdate = req.body.data;
   const blogId = req.body.data.userid;
@@ -132,9 +137,11 @@ exports.updateReview = async (req, res) => {
     });
 
     if (updated) {
-      res
-        .status(200)
-        .json({ message: "Blog updated successfully", status: "success" });
+      res.status(200).json({
+        message: "Blog updated successfully",
+        status: "success",
+        data: updated,
+      });
     } else {
       res.status(404).json({ message: "Blog not found", status: "error" });
     }
