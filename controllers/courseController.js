@@ -71,7 +71,9 @@ exports.getActiveCourseList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    res.status(200).json(courses);
+    res
+      .status(200)
+      .json({ message: "Course List", status: "success", data: courses });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
