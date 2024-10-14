@@ -107,7 +107,7 @@ exports.getActiveHolidayList = async (req, res) => {
 exports.getActiveHolidayDetail = async (req, res) => {
   try {
     const holidays = await Holiday.findAll({
-      where: { title: "Chrismas" },
+      where: { title: "Christmas" },
     });
 
     if (holidays.length === 0) {
