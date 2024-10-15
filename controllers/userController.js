@@ -344,33 +344,33 @@ exports.byUserCourseDummy = async (req, res) => {
   }
 };
 
-// exports.byUserCourseDummyNumber2 = async (req, res) => {
-//   const { userid, courseIds: newCourses } = req.body;
+exports.byUserCourseDummyNumber2 = async (req, res) => {
+  const { userid, courseIds: newCourses } = req.body;
 
-//   try {
-//     const user = await User.findByPk(userid);
+  try {
+    const user = await User.findByPk(userid);
 
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     let existingCourses = user.courseIds || [];
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    let existingCourses = user.courseIds || [];
 
-//     if (Array.isArray(newCourses)) {
-//       newCourses.forEach((newCourse) => {
-//         const courseExists = existingCourses.some(
-//           (existingCourse) => existingCourse.courseId === newCourse.courseId
-//         );
+    if (Array.isArray(newCourses)) {
+      newCourses.forEach((newCourse) => {
+        const courseExists = existingCourses.some(
+          (existingCourse) => existingCourse.courseId === newCourse.courseId
+        );
 
-//         if (!courseExists) {
-//           existingCourses.push(newCourse);
-//         }
-//       });
-//     }
+        if (!courseExists) {
+          existingCourses.push(newCourse);
+        }
+      });
+    }
 
-//     await user.update({ courseIds: existingCourses });
+    await user.update({ courseIds: existingCourses });
 
-//     res.status(200).json({ message: "User updated successfully", user });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
