@@ -112,13 +112,11 @@ exports.deleteReview = async (req, res) => {
     });
 
     if (updated) {
-      res
-        .status(200)
-        .json({
-          message: "Blog Deleted successfully",
-          status: "success",
-          data: updated,
-        });
+      res.status(200).json({
+        message: "Blog Deleted successfully",
+        status: "success",
+        data: updated,
+      });
     } else {
       res.status(404).json({ message: "Blog not found", status: "error" });
     }
@@ -198,6 +196,18 @@ exports.getReviewList = async (req, res) => {
 };
 
 exports.saveReview = async (req, res) => {
+  const tosave = req.body.data;
+  try {
+    const user = await Blog.create(tosave);
+    return res
+      .status(200)
+      .json({ message: "New Blog Saved", status: "success", data: user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.saveReviewDummy = async (req, res) => {
   const tosave = req.body.data;
   try {
     const user = await Blog.create(tosave);
