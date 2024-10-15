@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const holidayRoutes = require("./routes/holidayRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const blogRoutes = require("./routes/blogRoutes");
+const eventRoutes = require("./routes/eventRouts");
 const sequelize = require("./config/db");
 //const auth = require("./middleware/auth");
 
@@ -16,6 +17,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/holiday", holidayRoutes);
 app.use("/api/blog", blogRoutes);
+app.use("/api/event", eventRoutes);
 
 app.get("/", (req, res) => {
   return res.json({
