@@ -36,3 +36,24 @@ exports.updateEvent = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getEvents = async (req, res) => {
+  try {
+    const users = await Event.findAll({
+      where: {
+        isDelete: false,
+      },
+    });
+    if (!users) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.status(200).json({
+      message: "Event List",
+      status: "success",
+      data: users,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
