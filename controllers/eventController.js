@@ -8,7 +8,30 @@ exports.saveEvent = async (req, res) => {
     const user = await Event.create(tosave);
     return res
       .status(200)
-      .json({ message: "New Evebt Saved", status: "success", data: user });
+      .json({ message: "New Event Saved", status: "success", data: user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateEvent = async (req, res) => {
+  const { username, email, role, isDelete, isPermission } = req.body;
+  const userId = req.body.id;
+
+  try {
+    const user = await Event.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    await Event.update({
+      username: username,
+      email: email || user.email,
+      role: role || user.role,
+    });
+
+    res.status(200).json({ message: "Event updated successfully", user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
