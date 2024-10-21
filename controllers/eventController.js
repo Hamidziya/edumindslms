@@ -78,22 +78,22 @@ exports.removeSpecificEvent = async (req, res) => {
   }
 };
 
-exports.deleteEvent = async (req, res) => {
-  try {
-    if (req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Only Admin Can Remove The Event List" });
-    }
-    const toUpdate = { isDelete: true };
+// exports.deleteEvent = async (req, res) => {
+//   try {
+//     if (req.user.role !== "admin") {
+//       return res
+//         .status(403)
+//         .json({ message: "Only Admin Can Remove The Event List" });
+//     }
+//     const toUpdate = { isDelete: true };
 
-    await Event.update(toUpdate, {
-      where: { holidayId: req.body.data.holidayId },
-    });
-    res
-      .status(200)
-      .json({ message: "Event Removed successfully", status: "success" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+//     await Event.update(toUpdate, {
+//       where: { holidayId: req.body.data.holidayId },
+//     });
+//     res
+//       .status(200)
+//       .json({ message: "Event Removed successfully", status: "success" });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
