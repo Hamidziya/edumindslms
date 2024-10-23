@@ -157,3 +157,19 @@ exports.removeSpecificHolidayDummy = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getSpecificHolidayDummy = async (req, res) => {
+  try {
+    let active1 = await Holiday.findAll({ where: { id: "61" } });
+    if (active1) {
+      return res
+        .status(200)
+        .json({ message: "holiday detail", status: "success", data: active1 });
+    }
+    res
+      .status(201)
+      .json({ message: "no data found", status: "success", data: [] });
+  } catch (err) {
+    return res.status.json({ message: "internal server error" });
+  }
+};
