@@ -14,8 +14,6 @@ exports.saveBlog = async (req, res) => {
 };
 
 exports.getBlogList = async (req, res) => {
-  //const blogId = req.body.blogId;
-
   try {
     const blogs = await Blog.findAll({
       where: {
