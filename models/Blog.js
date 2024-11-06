@@ -41,6 +41,9 @@ const Blog = sequelize.define(
     region: {
       type: DataTypes.TEXT,
     },
+    //RelationshipType:{
+    //   type:DataTypes.TEXT
+    // }
   },
   {
     tableName: "blogs",
