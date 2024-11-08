@@ -14,6 +14,9 @@ const User = sequelize.define(
     username: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, allowNull: false },
     companyName: { type: DataTypes.STRING },
+    country: { type: DataTypes.STRING },
+    state: { type: DataTypes.STRING },
+    city: { type: DataTypes.STRING },
     password: { type: DataTypes.STRING, allowNull: false },
     role: {
       type: DataTypes.ENUM("admin", "manager", "teacher", "student"),
