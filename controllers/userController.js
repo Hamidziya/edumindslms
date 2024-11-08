@@ -4,7 +4,7 @@ const Holiday = require("../models/Holiday");
 const Attendance = require("../models/Attendance");
 
 exports.createUser = async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const tosave = req.body.data;
   if (
     req.user.role !== "admin" &&
     !(
@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
     return res.status(403).json({ message: "Unauthorized" });
   }
   try {
-    const newUser = await User.create({ username, email, password, role });
+    const newUser = await User.create(tosave);
     res
       .status(201)
       .json({ message: "User Created", status: "success", data: newUser });
