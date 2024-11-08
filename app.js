@@ -1,15 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const holidayRoutes = require("./routes/holidayRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const eventRoutes = require("./routes/eventRouts");
-const sequelize = require("./config/db");
-//const auth = require("./middleware/auth");
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
+
 app.use(bodyParser.json());
 
 app.use("/api/auth", authRoutes);
@@ -24,13 +30,12 @@ app.get("/", (req, res) => {
     message: `Welcome To Eduminds Learning Portal`,
   });
 });
+
 app.get("/name/:name", (req, res) => {
   const { name } = req.params;
   return res.json({
     message: `Welcome Mr./Ms. ${name} To Eduminds Learning Portal`,
   });
 });
-
-//sequelize.sync().then(() => console.log('DB Synced'));
 
 module.exports = app;

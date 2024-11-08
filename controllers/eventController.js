@@ -15,20 +15,22 @@ exports.saveEvent = async (req, res) => {
 };
 
 exports.updateEvent = async (req, res) => {
-  const { username, email, role, isDelete, isPermission } = req.body;
-  const userId = req.body.id;
+  const { date, titletype, day, description, isDelete, isPermission } =
+    req.body;
+  const eventId = req.body.eventId;
 
   try {
-    const user = await Event.findByPk(userId);
+    const event = await Event.findByPk(eventId);
 
-    if (!user) {
+    if (!event) {
       return res.status(404).json({ message: "Event not found" });
     }
 
     await Event.update({
-      username: username,
-      email: email || user.email,
-      role: role || user.role,
+      date: date,
+      titletype: titletype || event.titletype,
+      day: day || event.day,
+      description: description || event.description,
     });
 
     res.status(200).json({ message: "Event updated successfully", user });
@@ -68,7 +70,7 @@ exports.removeSpecificEvent = async (req, res) => {
     const toUpdate = { isDelete: true };
 
     await Event.update(toUpdate, {
-      where: { holidayId: req.body.data.holidayId },
+      where: { eventId: req.body.data.eventId },
     });
     res
       .status(200)
@@ -88,7 +90,7 @@ exports.deleteEvent = async (req, res) => {
     const toUpdate = { isDelete: true };
 
     await Event.update(toUpdate, {
-      where: { holidayId: req.body.data.holidayId },
+      where: { eventId: req.body.data.eventId },
     });
     res
       .status(200)
