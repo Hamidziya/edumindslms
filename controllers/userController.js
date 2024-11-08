@@ -15,6 +15,15 @@ exports.createUser = async (req, res) => {
     return res.status(403).json({ message: "Unauthorized" });
   }
   try {
+    const users = await User.findAll({
+      where: {
+        email: tosave.email,
+      },
+    });
+    if (users) {
+      return res.status(201).json({ message: "User Already Exist" });
+    }
+
     const newUser = await User.create(tosave);
     res
       .status(201)
