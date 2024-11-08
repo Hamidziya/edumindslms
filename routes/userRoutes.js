@@ -10,7 +10,8 @@ const { byUserCourse } = require("../controllers/userController");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
-router.post("/create", auth, createUser);
+// router.post("/create", auth, createUser);
+router.post("/create", createUser);
 router.post("/updateUser", auth, updateUser);
 router.post("/getUserCourse", auth, getUserCourse);
 // router.post("/saveHoliday", auth, saveHoliday);
