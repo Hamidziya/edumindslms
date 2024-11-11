@@ -6,10 +6,14 @@ const Detail = require("../models/Detail");
 require("dotenv").config();
 
 exports.register = async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const toSave = req.body.data;
   try {
-    const user = await User.create({ username, email, password, role });
-    res.status(201).json(user);
+    const user = await User.create(toSave);
+    res.status(200).json({
+      message: "User Registered successfully",
+      status: "success",
+      data: user,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

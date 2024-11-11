@@ -6,6 +6,8 @@ const { getUsers } = require("../controllers/userController");
 const { saveHoliday } = require("../controllers/userController");
 const { getActiveHolidayList } = require("../controllers/userController");
 const { removeSpecificHoliday } = require("../controllers/userController");
+const { updateUserPassword } = require("../controllers/userController");
+const { deleteUser } = require("../controllers/userController");
 const { byUserCourse } = require("../controllers/userController");
 
 const auth = require("../middleware/auth");
@@ -15,6 +17,9 @@ router.post("/create", auth, createUser);
 router.post("/updateUser", auth, updateUser);
 router.post("/getUserCourse", auth, getUserCourse);
 router.post("/getUsers", auth, getUsers);
+router.post("/updateUserPassword", auth, updateUserPassword);
+router.post("/deleteUser", auth, deleteUser);
+
 // router.post("/saveHoliday", auth, saveHoliday);
 // router.post("/getActiveHolidayList", auth, getActiveHolidayList);
 // router.post("/removeSpecificHoliday", auth, removeSpecificHoliday);

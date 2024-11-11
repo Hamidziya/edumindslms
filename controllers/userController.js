@@ -71,7 +71,7 @@ exports.createUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   const toUpdate = req.body;
-  const userId = req.body.userid;
+  const userId = req.body.userId;
 
   try {
     const user = await User.findByPk(userId);
@@ -105,6 +105,53 @@ exports.getUsers = async (req, res) => {
       message: "User List",
       status: "success",
       data: users,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  // const toUpdate = req.body;
+  const userId = req.body.userId;
+
+  try {
+    // const user = await User.findByPk(userId);
+
+    // if (!user) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
+    await User.update(
+      { isDelete: true },
+      {
+        where: { userId: userId },
+      }
+    );
+    res.status(200).json({
+      message: "User Deleted successfully",
+      status: "success",
+      //data: user,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateUserPassword = async (req, res) => {
+  const toUpdate = req.body;
+  const userId = req.body.userId;
+
+  try {
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await user.update(toUpdate);
+    res.status(200).json({
+      message: "Password updated successfully",
+      status: "success",
+      data: user,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
