@@ -8,6 +8,14 @@ require("dotenv").config();
 exports.register = async (req, res) => {
   const toSave = req.body.data;
   try {
+    const users = await User.findAll({
+      where: {
+        email: toSave.email,
+      },
+    });
+    if (users.length > 0) {
+      return res.status(201).json({ message: "User Already Exist" });
+    }
     const user = await User.create(toSave);
     res.status(200).json({
       message: "User Registered successfully",
