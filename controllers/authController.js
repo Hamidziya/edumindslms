@@ -51,15 +51,23 @@ exports.getRegistratedUsers = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
+  console.log("Login attempt received:", email, password);
+
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!user) {
+      console.log("User not found with email:", email);
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
+    console.log("Stored user password:", user.password);
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res
-        .status(400)
-        .json({ message: "Invalid credentials", email, password });
+    console.log("Password match result:", isMatch);
+
+    if (!isMatch) {
+      console.log("Password mismatch for user:", email);
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
     const token = jwt.sign(
       { id: user.userId, role: user.role },
@@ -68,6 +76,7 @@ exports.login = async (req, res) => {
     );
     res.json({ user, token });
   } catch (err) {
+    console.error("Error during login process:", err);
     res.status(500).json({ error: err.message });
   }
 };
