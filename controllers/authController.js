@@ -74,7 +74,7 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
-    res.json({ user, token });
+    res.json({ user, email, password, token });
   } catch (err) {
     console.error("Error during login process:", err);
     res.status(500).json({ error: err.message });
