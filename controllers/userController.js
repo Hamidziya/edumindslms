@@ -148,11 +148,11 @@ exports.updateUserPassword = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    await user.update(toUpdate);
+    let newuser = await user.update(toUpdate);
     res.status(200).json({
       message: "Password updated successfully",
       status: "success",
-      data: { user, toUpdate },
+      data: { newuser, toUpdate },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
