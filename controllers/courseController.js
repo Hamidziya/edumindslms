@@ -4,40 +4,43 @@ const coursesection = require("../models/courseSection");
 const Detail = require("../models/Detail");
 
 exports.createCourse = async (req, res) => {
-  const { title, description, price } = req.body;
+  const toSave = req.body;
 
   try {
-    const newCourse = await Course.create({
-      title,
-      description,
-      //duration,
-      price,
-    });
+    const newCourse = await Course.create(toSave);
 
-    res.status(201).json(newCourse);
+    res
+      .status(201)
+      .json({
+        message: "Course updated successfully",
+        status: "success",
+        data: newCourse,
+      });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
 exports.updateCourse = async (req, res) => {
-  const { username, email, role, isDelete, isPermission } = req.body;
-  const userId = req.body.id;
+  const toUpdate = req.body.data;
+  const courseId = toUpdate.courseId;
 
   try {
-    const user = await Course.findByPk(userId);
+    const course = await Course.findByPk(courseId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "course not found" });
     }
 
-    await user.update({
-      username: username,
-      email: email || user.email,
-      role: role || user.role,
-    });
+    await course.update(toUpdate);
 
-    res.status(200).json({ message: "User updated successfully", user });
+    res
+      .status(200)
+      .json({
+        message: "Course updated successfully",
+        status: "success",
+        data: course,
+      });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -57,7 +60,13 @@ exports.deleteCourse = async (req, res) => {
       isDelete: true,
     });
 
-    res.status(200).json({ message: "Course updated successfully", user });
+    res
+      .status(200)
+      .json({
+        message: "Course updated successfully",
+        status: "success",
+        data: course,
+      });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -130,9 +139,9 @@ exports.createCourseSection = async (req, res) => {
   }
 };
 
-exports.updateCourse = async (req, res) => {
+exports.updateCourseSection = async (req, res) => {
   const toUpdate = req.body.data;
-  const courseSectionId = req.body.courseSectionId;
+  const courseSectionId = toUpdate.courseSectionId;
 
   try {
     const courseSection = await coursesection.findByPk(courseSectionId);
@@ -149,39 +158,42 @@ exports.updateCourse = async (req, res) => {
   }
 };
 
-exports.deleteCourse = async (req, res) => {
-  const courseId = req.body.courseId;
+exports.deleteCourseSection = async (req, res) => {
+  const courseSectionId = req.body.courseId;
 
   try {
-    const course = await Course.findByPk(courseId);
+    const course = await coursesection.findByPk(courseSectionId);
 
     if (!course) {
-      return res.status(404).json({ message: "Course not found" });
+      return res.status(404).json({ message: "Course section not found" });
     }
 
     await course.update({
       isDelete: true,
     });
 
-    res.status(200).json({ message: "Course updated successfully", user });
+    res.status(200).json({ message: "Section updated successfully", user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.getActiveCourseList = async (req, res) => {
+exports.getActiveCourseSectionList = async (req, res) => {
+  let courseid = req.body.courseId;
   try {
-    const courses = await Course.findAll({
-      where: { isDelete: false },
+    const courses = await coursesection.findAll({
+      where: { isDelete: false, courseId: courseid },
     });
 
     if (courses.length === 0) {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Course List", status: "success", data: courses });
+    res.status(200).json({
+      message: "Course Section List",
+      status: "success",
+      data: courses,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

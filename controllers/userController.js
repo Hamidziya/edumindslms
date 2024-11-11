@@ -149,13 +149,10 @@ exports.updateUserPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Keep track of original values before update
     const originalData = { ...user.get() };
 
-    // Update the user data
     let newuser = await user.update(toUpdate);
 
-    // Check if specific fields were changed
     const changedFields = [];
     Object.keys(toUpdate).forEach((field) => {
       if (user.changed(field)) {
@@ -163,7 +160,6 @@ exports.updateUserPassword = async (req, res) => {
       }
     });
 
-    // If no fields were changed, respond accordingly
     if (changedFields.length === 0) {
       return res.status(200).json({
         message: "No data was modified",
@@ -172,7 +168,6 @@ exports.updateUserPassword = async (req, res) => {
       });
     }
 
-    // If fields were changed, send updated data and list of changed fields
     res.status(200).json({
       message: "Password updated successfully",
       status: "success",

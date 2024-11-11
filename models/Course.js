@@ -10,9 +10,17 @@ const Course = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    courseNumberId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    courseImage: {
+      type: DataTypes.STRING,
+      //allowNull: false,
     },
     isDelete: {
       type: DataTypes.BOOLEAN,

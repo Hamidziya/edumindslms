@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db").sequelize;
 
-const Course = sequelize.define(
+const coursesection = sequelize.define(
   "coursesection",
   {
     courseSectionId: {
@@ -10,13 +10,21 @@ const Course = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    sectionNumberId: {
+      type: DataTypes.STRING,
+      //defaultValue: [],
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    image: {
+      type: DataTypes.STRING,
+      // allowNull: false,
+    },
     courseId: {
-      type: DataTypes.JSON,
-      defaultValue: [],
+      type: DataTypes.STRING,
+      //defaultValue: [],
     },
     isDelete: {
       type: DataTypes.BOOLEAN,
@@ -33,4 +41,4 @@ const Course = sequelize.define(
   }
 );
 
-module.exports = Course;
+module.exports = coursesection;
