@@ -17,6 +17,7 @@ const User = sequelize.define(
     country: { type: DataTypes.STRING },
     state: { type: DataTypes.STRING },
     city: { type: DataTypes.STRING },
+    isRegistration: { type: DataTypes.BOOLEAN, defaultValue: false },
     password: { type: DataTypes.STRING, allowNull: false },
     role: {
       type: DataTypes.ENUM("admin", "manager", "teacher", "student"),

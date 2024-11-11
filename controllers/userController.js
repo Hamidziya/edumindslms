@@ -95,6 +95,7 @@ exports.getUsers = async (req, res) => {
     const users = await User.findAll({
       where: {
         isDelete: false,
+        isRegistration: false,
       },
     });
     if (!users) {
