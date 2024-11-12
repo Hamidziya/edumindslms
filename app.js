@@ -12,7 +12,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://eduplaced.com",
+    origin: "http://localhost:5173",
   })
 );
 
