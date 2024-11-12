@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db").sequelize;
 
-const Course = sequelize.define(
+const details = sequelize.define(
   "details",
   {
     detailId: {
@@ -9,6 +9,13 @@ const Course = sequelize.define(
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
+    },
+    courseSectionId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    sectionDetailNumber: {
+      type: DataTypes.INTEGER,
     },
     title: {
       type: DataTypes.STRING,
@@ -33,4 +40,4 @@ const Course = sequelize.define(
   }
 );
 
-module.exports = Course;
+module.exports = details;

@@ -1,7 +1,7 @@
 const Course = require("../models/Course");
 const coursesection = require("../models/courseSection");
 
-const Detail = require("../models/Detail");
+const Detail = require("../models/sectionDetail");
 
 exports.createCourse = async (req, res) => {
   const toSave = req.body;
@@ -9,13 +9,11 @@ exports.createCourse = async (req, res) => {
   try {
     const newCourse = await Course.create(toSave);
 
-    res
-      .status(201)
-      .json({
-        message: "Course updated successfully",
-        status: "success",
-        data: newCourse,
-      });
+    res.status(201).json({
+      message: "Course updated successfully",
+      status: "success",
+      data: newCourse,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -34,13 +32,11 @@ exports.updateCourse = async (req, res) => {
 
     await course.update(toUpdate);
 
-    res
-      .status(200)
-      .json({
-        message: "Course updated successfully",
-        status: "success",
-        data: course,
-      });
+    res.status(200).json({
+      message: "Course updated successfully",
+      status: "success",
+      data: course,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -60,13 +56,11 @@ exports.deleteCourse = async (req, res) => {
       isDelete: true,
     });
 
-    res
-      .status(200)
-      .json({
-        message: "Course updated successfully",
-        status: "success",
-        data: course,
-      });
+    res.status(200).json({
+      message: "Course updated successfully",
+      status: "success",
+      data: course,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -194,6 +188,83 @@ exports.getActiveCourseSectionList = async (req, res) => {
       status: "success",
       data: courses,
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.createCourseSectionDetail = async (req, res) => {
+  const toSave = req.body.data;
+
+  try {
+    const newCourse = await Detail.create(toSave);
+
+    //res.status(201).json(newCourse);
+    return res.status(200).json({
+      message: "section detail created",
+      status: "success",
+      data: newCourse,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getActiveCourseSectionDetailList = async (req, res) => {
+  let courseSectionId = req.body.courseId;
+  try {
+    const courses = await Detail.findAll({
+      where: { isDelete: false, courseSectionId: courseSectionId },
+    });
+
+    if (courses.length === 0) {
+      return res.status(404).json({ message: "No active Course found" });
+    }
+
+    res.status(200).json({
+      message: "Course Section Detail List",
+      status: "success",
+      data: courses,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateCourseSectionDetail = async (req, res) => {
+  const toUpdate = req.body.data;
+  const detailId = toUpdate.detailId;
+
+  try {
+    const courseSection = await coursesection.findByPk(detailId);
+
+    if (!courseSection) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await courseSection.update(toUpdate);
+
+    res.status(200).json({ message: "section updated successfully", user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteCourseSection = async (req, res) => {
+  const courseSectionId = req.body.courseId;
+
+  try {
+    const course = await coursesection.findByPk(courseSectionId);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course section not found" });
+    }
+
+    await course.update({
+      isDelete: true,
+    });
+
+    res.status(200).json({ message: "Section updated successfully", user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

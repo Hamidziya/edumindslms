@@ -203,7 +203,7 @@ exports.byUserCourse = async (req, res) => {
 
     await user.update({ courseIds: existingCourses });
 
-    res.status(200).json({ message: "User updated successfully", user });
+    res.status(200).json({ message: "Course Added successfully", user });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
