@@ -3,21 +3,53 @@ const coursesection = require("../models/courseSection");
 
 const Detail = require("../models/sectionDetail");
 
-exports.createCourse = async (req, res) => {
-  const toSave = req.body.data;
+const fs = require("fs");
+const path = require("path");
 
-  try {
-    const newCourse = await Course.create(toSave);
+const uploadFolder = "./uploads/";
 
-    res.status(201).json({
-      message: "Course Added successfully",
-      status: "success",
-      data: newCourse,
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+// Check if the uploads folder exists; if not, create it
+if (!fs.existsSync(uploadFolder)) {
+  fs.mkdirSync(uploadFolder, { recursive: true });
+}
+
+const multer = require("multer");
+
+// Configure multer storage with a prefix "edu" for filenames
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadFolder); // Save in 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "edu-" + uniqueSuffix + path.extname(file.originalname)); // Prefix with 'edu'
+  },
+});
+
+const upload = multer({ storage: storage });
+
+exports.createCourse = [
+  upload.single("image"), // 'courseImage' is the key for the file in the form-data
+  async (req, res) => {
+    const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
+    try {
+      // Save only the file name in the 'toSave' data
+      if (req.file) {
+        toSave.courseImage = req.file.filename; // Save only filename in toSave
+      }
+
+      const newCourse = await Course.create(toSave);
+
+      res.status(201).json({
+        message: "Course added successfully",
+        status: "success",
+        data: newCourse,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+];
 
 exports.updateCourse = async (req, res) => {
   const toUpdate = req.body.data;
@@ -76,9 +108,21 @@ exports.getActiveCourseList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Course List", status: "success", data: courses });
+    // Add the 'uploads/' path to each course's courseImage field before sending the response
+    const coursesWithImagePath = courses.map((course) => {
+      return {
+        ...course.toJSON(),
+        courseImage: course.courseImage
+          ? `uploads/${course.courseImage}`
+          : null,
+      };
+    });
+
+    res.status(200).json({
+      message: "Course List",
+      status: "success",
+      data: coursesWithImagePath,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
