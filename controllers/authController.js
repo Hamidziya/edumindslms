@@ -51,30 +51,34 @@ exports.getRegistratedUsers = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login attempt received:", email, password);
 
   try {
+    // Check if the user exists
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      console.log("User not found with email:", email);
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    console.log("Stored user password:", user.password);
+    // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Password match result:", isMatch);
-
     if (!isMatch) {
-      console.log("Password mismatch for user:", email);
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // Generate JWT token
     const token = jwt.sign(
       { id: user.userId, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
-    res.json({ user, email, password, token });
+
+    // Return token and some user info (but not sensitive data like password)
+    res.json({
+      token,
+      user,
+      email,
+      password,
+    });
   } catch (err) {
     console.error("Error during login process:", err);
     res.status(500).json({ error: err.message });

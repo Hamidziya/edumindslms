@@ -20,7 +20,7 @@ app.use(
 );
 
 // Handle preflight requests for all routes
-app.options("*", cors());
+app.options("*", cors()); // Optional, but keeps it functional.
 
 // Middleware
 app.use(bodyParser.json());
