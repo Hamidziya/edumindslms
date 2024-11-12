@@ -10,7 +10,8 @@ const eventRoutes = require("./routes/eventRouts");
 
 const app = express();
 
-app.use(
+app.options(
+  "*",
   cors({
     origin: ["http://localhost:5173", "https://test.eduplaced.com"],
   })
