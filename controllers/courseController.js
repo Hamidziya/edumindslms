@@ -4,13 +4,13 @@ const coursesection = require("../models/courseSection");
 const Detail = require("../models/sectionDetail");
 
 exports.createCourse = async (req, res) => {
-  const toSave = req.body;
+  const toSave = req.body.data;
 
   try {
     const newCourse = await Course.create(toSave);
 
     res.status(201).json({
-      message: "Course updated successfully",
+      message: "Course Added successfully",
       status: "success",
       data: newCourse,
     });
