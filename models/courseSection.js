@@ -11,7 +11,7 @@ const coursesection = sequelize.define(
       primaryKey: true,
     },
     sectionNumberId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       //defaultValue: [],
     },
     chapterNumber: {

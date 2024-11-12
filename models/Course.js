@@ -11,7 +11,7 @@ const Course = sequelize.define(
       primaryKey: true,
     },
     courseNumberId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     title: {
