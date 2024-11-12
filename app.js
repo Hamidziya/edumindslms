@@ -10,15 +10,22 @@ const eventRoutes = require("./routes/eventRouts");
 
 const app = express();
 
-app.options(
-  "*",
+// Enable CORS for specified origins
+app.use(
   cors({
     origin: ["http://localhost:5173", "https://test.eduplaced.com"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
+    //credentials: true, // If cookies or authorization headers are needed
   })
 );
 
+// Handle preflight requests for all routes
+app.options("*", cors());
+
+// Middleware
 app.use(bodyParser.json());
 
+// Route definitions
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/course", courseRoutes);
