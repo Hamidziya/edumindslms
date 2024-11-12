@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: ["http://localhost:5173", "https://test.eduplaced.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
-    //credentials: true, // If cookies or authorization headers are needed
+    credentials: true, // If cookies or authorization headers are needed
   })
 );
 
