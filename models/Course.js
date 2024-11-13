@@ -19,8 +19,7 @@ const Course = sequelize.define(
       allowNull: false,
     },
     courseImage: {
-      type: DataTypes.STRING,
-      //allowNull: false,
+      type: DataTypes.BLOB("long"),
     },
     isDelete: {
       type: DataTypes.BOOLEAN,

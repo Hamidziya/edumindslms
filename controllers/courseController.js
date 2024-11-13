@@ -3,21 +3,31 @@ const coursesection = require("../models/courseSection");
 
 const Detail = require("../models/sectionDetail");
 
-exports.createCourse = async (req, res) => {
-  const toSave = req.body.data;
+const multer = require("multer");
+const upload = multer();
 
-  try {
-    const newCourse = await Course.create(toSave);
+exports.createCourse = [
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      const toSave = JSON.parse(req.body.data);
 
-    res.status(201).json({
-      message: "Course Added successfully",
-      status: "success",
-      data: newCourse,
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+      if (req.file) {
+        toSave.courseImage = req.file.buffer;
+      }
+
+      const newCourse = await Course.create(toSave);
+
+      res.status(201).json({
+        message: "Course added successfully",
+        status: "success",
+        data: newCourse,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+];
 
 exports.updateCourse = async (req, res) => {
   const toUpdate = req.body.data;
@@ -26,7 +36,7 @@ exports.updateCourse = async (req, res) => {
   try {
     const course = await Course.findByPk(courseId);
 
-    if (!user) {
+    if (!course) {
       return res.status(404).json({ message: "course not found" });
     }
 
@@ -76,9 +86,25 @@ exports.getActiveCourseList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    res
-      .status(200)
-      .json({ message: "Course List", status: "success", data: courses });
+    // Convert courseImage BLOB to Base64 for each course
+    const coursesWithBase64Images = courses.map((course) => {
+      const courseData = course.toJSON(); // Convert Sequelize instance to plain object
+
+      // If there's an image, convert it to Base64; otherwise, leave it as is
+      if (courseData.courseImage) {
+        courseData.courseImage = Buffer.from(courseData.courseImage).toString(
+          "base64"
+        );
+      }
+
+      return courseData;
+    });
+
+    res.status(200).json({
+      message: "Course List",
+      status: "success",
+      data: coursesWithBase64Images,
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
