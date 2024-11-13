@@ -36,28 +36,39 @@ exports.createCourse = [
   },
 ];
 
-exports.updateCourse = async (req, res) => {
-  const toUpdate = req.body.data;
-  const courseId = toUpdate.courseId;
+exports.updateCourse = [
+  upload.single("image"), // Handling single file upload under 'image'
+  async (req, res) => {
+    try {
+      const toUpdate = JSON.parse(req.body.data); // Parsing the 'data' field as JSON
+      const courseId = toUpdate.courseId;
 
-  try {
-    const course = await Course.findByPk(courseId);
+      const course = await Course.findByPk(courseId);
 
-    if (!course) {
-      return res.status(404).json({ message: "course not found" });
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+
+      // If an image file is uploaded, update the course with the image buffer and MIME type
+      if (req.file) {
+        toUpdate.courseImage = req.file.buffer; // Save image buffer
+        toUpdate.courseImageType = req.file.mimetype; // Save MIME type
+      }
+
+      // Update the course in the database
+      await course.update(toUpdate);
+
+      res.status(200).json({
+        message: "Course updated successfully",
+        status: "success",
+        data: course,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
     }
-
-    await course.update(toUpdate);
-
-    res.status(200).json({
-      message: "Course updated successfully",
-      status: "success",
-      data: course,
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+  },
+];
 
 exports.deleteCourse = async (req, res) => {
   const courseId = req.body.courseId;
