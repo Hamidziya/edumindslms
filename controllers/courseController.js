@@ -3,8 +3,14 @@ const coursesection = require("../models/courseSection");
 
 const Detail = require("../models/sectionDetail");
 
+// const multer = require("multer");
+// const upload = multer();
+
 const multer = require("multer");
-const upload = multer();
+
+// Set up multer storage (in memory storage to get buffer data)
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 exports.createCourse = [
   upload.single("image"),
@@ -13,7 +19,8 @@ exports.createCourse = [
       const toSave = JSON.parse(req.body.data);
 
       if (req.file) {
-        toSave.courseImage = req.file.buffer;
+        toSave.courseImage = req.file.buffer; // Save file buffer
+        toSave.courseImageType = req.file.mimetype; // Save MIME type
       }
 
       const newCourse = await Course.create(toSave);
@@ -83,18 +90,17 @@ exports.getActiveCourseList = async (req, res) => {
     });
 
     if (courses.length === 0) {
-      return res.status(404).json({ message: "No active Course found" });
+      return res.status(404).json({ message: "No active course found" });
     }
 
-    // Convert courseImage BLOB to Base64 for each course
-    const coursesWithBase64Images = courses.map((course) => {
-      const courseData = course.toJSON(); // Convert Sequelize instance to plain object
+    const coursesWithBase64Files = courses.map((course) => {
+      const courseData = course.toJSON();
 
-      // If there's an image, convert it to Base64; otherwise, leave it as is
-      if (courseData.courseImage) {
-        courseData.courseImage = Buffer.from(courseData.courseImage).toString(
-          "base64"
-        );
+      // Convert courseImage BLOB to Base64 with MIME type prefix
+      if (courseData.courseImage && courseData.courseImageType) {
+        courseData.courseImage = `data:${
+          courseData.courseImageType
+        };base64,${Buffer.from(courseData.courseImage).toString("base64")}`;
       }
 
       return courseData;
@@ -103,7 +109,7 @@ exports.getActiveCourseList = async (req, res) => {
     res.status(200).json({
       message: "Course List",
       status: "success",
-      data: coursesWithBase64Images,
+      data: coursesWithBase64Files,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

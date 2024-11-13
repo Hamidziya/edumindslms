@@ -21,6 +21,9 @@ const Course = sequelize.define(
     courseImage: {
       type: DataTypes.BLOB("long"),
     },
+    courseImageType: {
+      type: DataTypes.STRING, // Store MIME type, e.g., "image/png" or "application/pdf"
+    },
     isDelete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
