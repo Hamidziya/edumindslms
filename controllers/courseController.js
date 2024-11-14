@@ -126,7 +126,7 @@ exports.getActiveCourseList = async (req, res) => {
     res.status(200).json({
       message: "Course List",
       status: "success",
-      data: coursesWithImagePath,
+      data: courses,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
