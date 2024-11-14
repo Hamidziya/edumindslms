@@ -3,24 +3,38 @@ const coursesection = require("../models/courseSection");
 
 const Detail = require("../models/sectionDetail");
 
-// const multer = require("multer");
-// const upload = multer();
+const uploadFolder = "./uploads/";
+
+const fs = require("fs");
+const path = require("path");
+// Check if the uploads folder exists; if not, create it
+if (!fs.existsSync(uploadFolder)) {
+  fs.mkdirSync(uploadFolder, { recursive: true });
+}
 
 const multer = require("multer");
 
-// Set up multer storage (in memory storage to get buffer data)
-const storage = multer.memoryStorage();
+// Configure multer storage with a prefix "edu" for filenames
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadFolder); // Save in 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "edu-" + uniqueSuffix + path.extname(file.originalname)); // Prefix with 'edu'
+  },
+});
+
 const upload = multer({ storage: storage });
 
 exports.createCourse = [
-  upload.single("image"),
+  upload.single("image"), // 'courseImage' is the key for the file in the form-data
   async (req, res) => {
+    const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
     try {
-      const toSave = JSON.parse(req.body.data);
-
+      // Save only the file name in the 'toSave' data
       if (req.file) {
-        toSave.courseImage = req.file.buffer; // Save file buffer
-        toSave.courseImageType = req.file.mimetype; // Save MIME type
+        toSave.courseImage = req.file.filename; // Save only filename in toSave
       }
 
       const newCourse = await Course.create(toSave);
@@ -61,7 +75,7 @@ exports.updateCourse = [
       res.status(200).json({
         message: "Course updated successfully",
         status: "success",
-        data: course,
+        //data: course,
       });
     } catch (err) {
       console.error(err);
