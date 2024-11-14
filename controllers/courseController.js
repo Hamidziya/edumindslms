@@ -65,7 +65,7 @@ exports.updateCourse = [
 
       // If an image file is uploaded, update the course with the image buffer and MIME type
       if (req.file) {
-        toUpdate.courseImage = req.file.buffer; // Save image buffer
+        toUpdate.courseImage = req.file.filename; // Save image buffer
         toUpdate.courseImageType = req.file.mimetype; // Save MIME type
       }
 
@@ -118,15 +118,15 @@ exports.getActiveCourseList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    // Add the 'uploads/' path to each course's courseImage field before sending the response
-    const coursesWithImagePath = courses.map((course) => {
-      return {
-        ...course.toJSON(),
-        courseImage: course.courseImage
-          ? `uploads/${course.courseImage}`
-          : null,
-      };
-    });
+    // // Add the 'uploads/' path to each course's courseImage field before sending the response
+    // const coursesWithImagePath = courses.map((course) => {
+    //   return {
+    //     ...course.toJSON(),
+    //     courseImage: course.courseImage
+    //       ? `uploads/${course.courseImage}`
+    //       : null,
+    //   };
+    // });
 
     res.status(200).json({
       message: "Course List",
