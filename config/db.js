@@ -1,7 +1,6 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-// Setup Sequelize instance with SSL configuration
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -12,10 +11,10 @@ const sequelize = new Sequelize(
     dialect: "mysql",
     dialectModule: require("mysql2"),
     dialectOptions: {
-      // ssl: {
-      //   require: true,
-      //   rejectUnauthorized: false,
-      // },
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // Important for Aiven's SSL settings
+      },
     },
   }
 );
