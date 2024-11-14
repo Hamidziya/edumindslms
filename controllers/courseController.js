@@ -62,14 +62,9 @@ exports.updateCourse = [
       if (!course) {
         return res.status(404).json({ message: "Course not found" });
       }
-
-      // If an image file is uploaded, update the course with the image buffer and MIME type
       if (req.file) {
-        toUpdate.courseImage = req.file.filename; // Save image buffer
-        toUpdate.courseImageType = req.file.mimetype; // Save MIME type
+        toUpdate.courseImage = req.file.filename; // Save only filename in toSave
       }
-
-      // Update the course in the database
       await course.update(toUpdate);
 
       res.status(200).json({
