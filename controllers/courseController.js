@@ -115,26 +115,23 @@ exports.getActiveCourseList = async (req, res) => {
     });
 
     if (courses.length === 0) {
-      return res.status(404).json({ message: "No active course found" });
+      return res.status(404).json({ message: "No active Course found" });
     }
 
-    const coursesWithBase64Files = courses.map((course) => {
-      const courseData = course.toJSON();
-
-      // Convert courseImage BLOB to Base64 with MIME type prefix
-      if (courseData.courseImage && courseData.courseImageType) {
-        courseData.courseImage = `data:${
-          courseData.courseImageType
-        };base64,${Buffer.from(courseData.courseImage).toString("base64")}`;
-      }
-
-      return courseData;
+    // Add the 'uploads/' path to each course's courseImage field before sending the response
+    const coursesWithImagePath = courses.map((course) => {
+      return {
+        ...course.toJSON(),
+        courseImage: course.courseImage
+          ? `uploads/${course.courseImage}`
+          : null,
+      };
     });
 
     res.status(200).json({
       message: "Course List",
       status: "success",
-      data: coursesWithBase64Files,
+      data: coursesWithImagePath,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
