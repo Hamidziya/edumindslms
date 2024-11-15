@@ -202,7 +202,7 @@ exports.updateCourseSection = async (req, res) => {
 };
 
 exports.deleteCourseSection = async (req, res) => {
-  const courseSectionId = req.body.courseId;
+  const courseSectionId = req.body.courseSectionId;
 
   try {
     const course = await coursesection.findByPk(courseSectionId);
