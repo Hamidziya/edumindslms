@@ -195,7 +195,7 @@ exports.updateCourseSection = async (req, res) => {
 
     await courseSection.update(toUpdate);
 
-    res.status(200).json({ message: "section updated successfully", user });
+    res.status(200).json({ message: "Section Updated", status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -215,7 +215,7 @@ exports.deleteCourseSection = async (req, res) => {
       isDelete: true,
     });
 
-    res.status(200).json({ message: "Section updated successfully", user });
+    res.status(200).json({ message: "section Deleted", status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -299,22 +299,22 @@ exports.updateCourseSectionDetail = async (req, res) => {
   }
 };
 
-exports.deleteCourseSection = async (req, res) => {
-  const courseSectionId = req.body.courseId;
+// exports.deleteCourseSection = async (req, res) => {
+//   const courseSectionId = req.body.courseId;
 
-  try {
-    const course = await coursesection.findByPk(courseSectionId);
+//   try {
+//     const course = await coursesection.findByPk(courseSectionId);
 
-    if (!course) {
-      return res.status(404).json({ message: "Course section not found" });
-    }
+//     if (!course) {
+//       return res.status(404).json({ message: "Course section not found" });
+//     }
 
-    await course.update({
-      isDelete: true,
-    });
+//     await course.update({
+//       isDelete: true,
+//     });
 
-    res.status(200).json({ message: "Section updated successfully", user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+//     res.status(200).json({ message: "Section updated successfully", user });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
