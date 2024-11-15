@@ -1,7 +1,7 @@
 const Course = require("../models/Course");
 const coursesection = require("../models/courseSection");
 
-const Detail = require("../models/sectionDetail");
+const Detail = require("../models/courseSectionFolder");
 
 const uploadFolder = "./uploads/";
 
@@ -299,22 +299,34 @@ exports.updateCourseSectionDetail = async (req, res) => {
   }
 };
 
-// exports.deleteCourseSection = async (req, res) => {
-//   const courseSectionId = req.body.courseId;
+//course section folder apis
 
-//   try {
-//     const course = await coursesection.findByPk(courseSectionId);
+exports.saveCourseSectionFolder = [
+  upload.array("files"), // 'files' is the field name for multiple files
+  async (req, res) => {
+    try {
+      const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
 
-//     if (!course) {
-//       return res.status(404).json({ message: "Course section not found" });
-//     }
+      // Save file information in the 'toSave' data
+      if (req.files && req.files.length > 0) {
+        toSave.files = req.files.map((file) => ({
+          filename: file.filename, // Save only the filename
+        }));
+      }
 
-//     await course.update({
-//       isDelete: true,
-//     });
+      const newFolder = await Detail.create(toSave);
 
-//     res.status(200).json({ message: "Section updated successfully", user });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+      res.status(201).json({
+        message: "Course section folder added successfully",
+        status: "success",
+        data: newFolder,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: "error",
+        message: "Failed to save course section folder",
+        error: err.message,
+      });
+    }
+  },
+];

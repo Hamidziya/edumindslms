@@ -2,9 +2,9 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db").sequelize;
 
 const details = sequelize.define(
-  "details",
+  "coursesectionfolder",
   {
-    detailId: {
+    folderId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
@@ -27,15 +27,20 @@ const details = sequelize.define(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      //allowNull: false,
     },
-    price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
+    links: {
+      type: DataTypes.JSON, // Store links as JSON
+      //allowNull: true, // Can be null if no links are provided
+    },
+    files: {
+      type: DataTypes.JSON, // Store an array of file details as JSON
+      //allowNull: true,
+      defaultValue: [], // Initialize with an empty array
     },
   },
   {
-    tableName: "details",
+    tableName: "coursesectionfolder",
     freezeTableName: true,
   }
 );
