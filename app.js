@@ -9,6 +9,7 @@ const holidayRoutes = require("./routes/holidayRoutes");
 const courseRoutes = require("./routes/courseRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const eventRoutes = require("./routes/eventRouts");
+const User = require("./models/User");
 
 const app = express();
 
@@ -62,9 +63,16 @@ app.get("/uploads/:filename", (req, res) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Root route
-app.get("/", (req, res) => {
+app.post("/update", async (req, res) => {
+  let data = req.body;
+  let result = await User.update(
+    { courseIds: data.courseIds },
+    { where: { userId: data.userid } }
+  );
+
   return res.json({
     message: `Welcome To Eduminds Learning Portal`,
+    data: result,
   });
 });
 

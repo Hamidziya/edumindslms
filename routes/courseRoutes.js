@@ -9,6 +9,8 @@ const {
   deleteCourseSection,
   getActiveCourseSectionList,
   saveCourseSectionFolder,
+  updateCourseSectionFolder,
+  getCourseSectionFolderList,
 } = require("../controllers/courseController");
 //const { updateCourse } = require('../controllers/courseController');
 
@@ -24,5 +26,7 @@ router.post("/updateCourseSection", auth, updateCourseSection);
 router.post("/deleteCourseSection", auth, deleteCourseSection);
 router.post("/getActiveCourseSectionList", auth, getActiveCourseSectionList);
 router.post("/saveCourseSectionFolder", auth, saveCourseSectionFolder);
+router.post("/updateCourseSectionFolder", auth, updateCourseSectionFolder);
+router.post("/getCourseSectionFolderList", auth, getCourseSectionFolderList);
 
 module.exports = router;

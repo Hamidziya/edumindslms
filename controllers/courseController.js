@@ -330,3 +330,113 @@ exports.saveCourseSectionFolder = [
     }
   },
 ];
+
+exports.updateCourseSectionFolder = [
+  upload.array("files"), // 'files' is the field name for multiple files
+  async (req, res) => {
+    try {
+      //const { id } = req.body.data; // Folder ID from the request params
+      const toUpdate = JSON.parse(req.body.data); // Parse JSON data from the request body
+
+      // Find the folder by ID
+      const folder = await Detail.findByPk(toUpdate.folderId);
+
+      if (!folder) {
+        return res.status(404).json({
+          status: "error",
+          message: "Folder not found",
+        });
+      }
+
+      // Merge existing and new files
+      let existingFiles = folder.files || [];
+      if (req.files && req.files.length > 0) {
+        const newFiles = req.files.map((file) => ({
+          filename: file.filename, // Save only the filename
+        }));
+
+        // Add only unique files to avoid duplicates
+        existingFiles = [
+          ...existingFiles,
+          ...newFiles.filter(
+            (newFile) =>
+              !existingFiles.some(
+                (existingFile) => existingFile.filename === newFile.filename
+              )
+          ),
+        ];
+      }
+
+      // Merge existing and new links based on `linkUrl`
+      let existingLinks = folder.links || [];
+      if (toUpdate.links && toUpdate.links.length > 0) {
+        const newLinks = toUpdate.links; // Assume new links are objects with a `linkUrl` property
+        existingLinks = [
+          ...existingLinks,
+          ...newLinks.filter(
+            (newLink) =>
+              !existingLinks.some(
+                (existingLink) => existingLink.linkUrl === newLink.linkUrl
+              )
+          ),
+        ];
+      }
+
+      // Update the folder with new data
+      folder.files = existingFiles;
+      folder.links = existingLinks;
+      await folder.save();
+
+      res.status(200).json({
+        message: "Course section folder updated successfully",
+        status: "success",
+        data: folder,
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: "error",
+        message: "Failed to update course section folder",
+        error: err.message,
+      });
+    }
+  },
+];
+
+exports.getCourseSectionFolderList = async (req, res) => {
+  const { courseSectionId } = req.body; // Extract `sectionId` from the request body
+
+  try {
+    // Validate `sectionId`
+    if (!courseSectionId) {
+      return res.status(400).json({
+        status: "error",
+        message: "courseSectionId I is required",
+      });
+    }
+
+    // Fetch the course section folder by `sectionId`
+    const folder = await Detail.findAll({
+      where: { courseSectionId: courseSectionId }, // Assuming `id` is the column name for the section ID
+    });
+
+    // Check if the folder exists
+    if (!folder) {
+      return res.status(404).json({
+        status: "error",
+        message: "Course section folder not found",
+      });
+    }
+
+    res.status(200).json({
+      message: "Course section folder retrieved successfully",
+      status: "success",
+      data: folder, // Return the folder details
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Failed to retrieve course section folder",
+      error: err.message,
+    });
+  }
+};

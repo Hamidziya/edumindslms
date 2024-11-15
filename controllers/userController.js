@@ -182,45 +182,37 @@ exports.byUserCourse = async (req, res) => {
   const { userid, courseIds: newCourses } = req.body;
 
   try {
-    // Retrieve the user by their userId
+    // Fetch user by ID
     const user = await User.findByPk(userid);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Get existing courseIds or initialize as an empty array if none exist
+    // Merge new courses with existing ones
     let existingCourses = user.courseIds || [];
-
-    // Debugging: Log the current existing courses
-    console.log("Existing courses:", existingCourses);
-
     if (Array.isArray(newCourses)) {
       newCourses.forEach((newCourse) => {
-        // Check if the course is already assigned to the user
         const courseExists = existingCourses.some(
           (existingCourse) => existingCourse.courseId === newCourse.courseId
         );
-
-        // If the course does not exist in the existing courses, add it
         if (!courseExists) {
           existingCourses.push(newCourse);
         }
       });
     }
 
-    try {
-      let result = await user.update({ courseIds: existingCourses });
-      console.log("Update result:", JSON.stringify(result));
-      res.status(200).json({
-        message: "Course Assigned successfully",
-        status: "success",
-        data: result,
-      });
-    } catch (err) {
-      console.error("Error updating courseIds:", err.message);
-      res.status(500).json({ error: err.message });
-    }
+    // Direct update using `User.update`
+    let result = await User.update(
+      { courseIds: existingCourses }, // Ensure proper JSON format
+      { where: { userId: userid } }
+    );
+
+    return res.status(200).json({
+      message: "Course Assigned successfully",
+      status: "success",
+      // data: result,
+    });
   } catch (err) {
     console.error("Error:", err.message);
     res.status(500).json({ error: err.message });
