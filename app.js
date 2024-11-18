@@ -58,6 +58,32 @@ app.get("/uploads/:filename", (req, res) => {
     });
   });
 });
+app.delete("/uploads/:filename", (req, res) => {
+  const { filename } = req.params;
+
+  // Sanitize the filename to prevent path traversal attacks
+  const sanitizedFilename = path.basename(filename);
+  const filePath = path.join(__dirname, "uploads", sanitizedFilename);
+
+  // Check if the file exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      // File does not exist
+      return res.status(404).json({ message: "File not found" });
+    }
+
+    // Delete the file
+    fs.unlink(filePath, (unlinkErr) => {
+      if (unlinkErr) {
+        console.error("Error deleting file:", unlinkErr);
+        return res.status(500).json({ message: "Error deleting file" });
+      }
+
+      // File deleted successfully
+      res.status(200).json({ message: "File deleted successfully" });
+    });
+  });
+});
 
 // Serve static files from the 'uploads' folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

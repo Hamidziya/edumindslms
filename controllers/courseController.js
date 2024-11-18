@@ -416,7 +416,7 @@ exports.getCourseSectionFolderList = async (req, res) => {
 
     // Fetch the course section folder by `sectionId`
     const folder = await Detail.findAll({
-      where: { courseSectionId: courseSectionId }, // Assuming `id` is the column name for the section ID
+      where: { courseSectionId: courseSectionId }, // Assuming `courseSectionId` is the column name for the section ID
     });
 
     // Check if the folder exists
