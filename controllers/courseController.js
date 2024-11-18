@@ -410,13 +410,13 @@ exports.getCourseSectionFolderList = async (req, res) => {
     if (!courseSectionId) {
       return res.status(400).json({
         status: "error",
-        message: "courseSectionId I is required",
+        message: "courseSectionId is required",
       });
     }
 
     // Fetch the course section folder by `sectionId`
     const folder = await Detail.findAll({
-      where: { courseSectionId: courseSectionId }, // Assuming `courseSectionId` is the column name for the section ID
+      where: { isDelete: false, courseSectionId: courseSectionId }, // Assuming `courseSectionId` is the column name for the section ID
     });
 
     // Check if the folder exists
@@ -438,5 +438,27 @@ exports.getCourseSectionFolderList = async (req, res) => {
       message: "Failed to retrieve course section folder",
       error: err.message,
     });
+  }
+};
+
+exports.deleteCourseSectionFolderList = async (req, res) => {
+  const folderId = req.body.folderId;
+
+  try {
+    const course = await Detail.findByPk(folderId);
+
+    if (!course) {
+      return res
+        .status(404)
+        .json({ message: "Course section folder not found" });
+    }
+
+    await course.update({
+      isDelete: true,
+    });
+
+    res.status(200).json({ message: "folder Deleted", status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
