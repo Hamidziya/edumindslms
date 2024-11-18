@@ -252,6 +252,7 @@ exports.getUserCourse = async (req, res) => {
     const courses = await Course.findAll({
       where: {
         courseId: courseIds,
+        isDelete: false,
       },
     });
 
@@ -260,6 +261,7 @@ exports.getUserCourse = async (req, res) => {
       title: course.title,
       description: course.description,
       price: course.price,
+      courseImage: course.courseImage, // Ensure this is correctly mapped
     }));
 
     res.status(200).json({
@@ -278,25 +280,33 @@ exports.getUserCourseDetail = async (req, res) => {
   try {
     const userId = req.body.userId;
 
+    // Fetch user from the database
     const user = await User.findByPk(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    // Extract course IDs
     const courseIds = user.courseIds.map((course) => course.courseId);
+
+    // Fetch courses based on the course IDs
     const courses = await Course.findAll({
       where: {
         courseId: courseIds,
       },
     });
 
+    // Format the course details to include courseImage
     const courseDetails = courses.map((course) => ({
       courseId: course.courseId,
       title: course.title,
       description: course.description,
       price: course.price,
+      courseImage: course.courseImage, // Ensure this is correctly mapped
     }));
 
+    // Return the response with the user data and course details
     res.status(200).json({
       username: user.username,
       email: user.email,
@@ -309,74 +319,74 @@ exports.getUserCourseDetail = async (req, res) => {
   }
 };
 
-exports.getUserCourseDetailDummy = async (req, res) => {
-  try {
-    const userId = req.body.userId;
+// exports.getUserCourseDetailDummy = async (req, res) => {
+//   try {
+//     const userId = req.body.userId;
 
-    const user = await User.findByPk(userId);
+//     const user = await User.findByPk(userId);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const courseIds = user.courseIds.map((course) => course.courseId);
-    const courses = await Course.findAll({
-      where: {
-        courseId: courseIds,
-      },
-    });
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     const courseIds = user.courseIds.map((course) => course.courseId);
+//     const courses = await Course.findAll({
+//       where: {
+//         courseId: courseIds,
+//       },
+//     });
 
-    const courseDetails = courses.map((course) => ({
-      courseId: course.courseId,
-      title: course.title,
-      description: course.description,
-      price: course.price,
-    }));
+//     const courseDetails = courses.map((course) => ({
+//       courseId: course.courseId,
+//       title: course.title,
+//       description: course.description,
+//       price: course.price,
+//     }));
 
-    res.status(200).json({
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      courses: courseDetails,
-    });
-  } catch (error) {
-    console.error("Error fetching user courses:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
+//     res.status(200).json({
+//       username: user.username,
+//       email: user.email,
+//       role: user.role,
+//       courses: courseDetails,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching user courses:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
 
-exports.getUserCourseDummy = async (req, res) => {
-  try {
-    const userId = req.body.userId;
-    const user = await User.findByPk(userId);
+// exports.getUserCourseDummy = async (req, res) => {
+//   try {
+//     const userId = req.body.userId;
+//     const user = await User.findByPk(userId);
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const courseIds = user.courseIds.map((course) => course.courseId);
-    const courses = await Course.findAll({
-      where: {
-        courseId: courseIds,
-      },
-    });
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     const courseIds = user.courseIds.map((course) => course.courseId);
+//     const courses = await Course.findAll({
+//       where: {
+//         courseId: courseIds,
+//       },
+//     });
 
-    const courseDetails = courses.map((course) => ({
-      courseId: course.courseId,
-      title: course.title,
-      description: course.description,
-      price: course.price,
-    }));
+//     const courseDetails = courses.map((course) => ({
+//       courseId: course.courseId,
+//       title: course.title,
+//       description: course.description,
+//       price: course.price,
+//     }));
 
-    res.status(200).json({
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      courses: courseDetails,
-    });
-  } catch (error) {
-    console.error("Error fetching user courses:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
+//     res.status(200).json({
+//       username: user.username,
+//       email: user.email,
+//       role: user.role,
+//       courses: courseDetails,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching user courses:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// };
 
 exports.deleteUserCourseDummy = async (req, res) => {
   const { userid, courseIdToDelete } = req.body;
