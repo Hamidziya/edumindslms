@@ -319,41 +319,6 @@ exports.getUserCourseDetail = async (req, res) => {
   }
 };
 
-// exports.getUserCourseDetailDummy = async (req, res) => {
-//   try {
-//     const userId = req.body.userId;
-
-//     const user = await User.findByPk(userId);
-
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     const courseIds = user.courseIds.map((course) => course.courseId);
-//     const courses = await Course.findAll({
-//       where: {
-//         courseId: courseIds,
-//       },
-//     });
-
-//     const courseDetails = courses.map((course) => ({
-//       courseId: course.courseId,
-//       title: course.title,
-//       description: course.description,
-//       price: course.price,
-//     }));
-
-//     res.status(200).json({
-//       username: user.username,
-//       email: user.email,
-//       role: user.role,
-//       courses: courseDetails,
-//     });
-//   } catch (error) {
-//     console.error("Error fetching user courses:", error);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };
-
 // exports.getUserCourseDummy = async (req, res) => {
 //   try {
 //     const userId = req.body.userId;
