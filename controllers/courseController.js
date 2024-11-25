@@ -2,33 +2,13 @@ const Course = require("../models/Course");
 const coursesection = require("../models/courseSection");
 
 const Detail = require("../models/courseSectionFolder");
-
-const uploadFolder = "./uploads/";
+const commonjs = require("../config/common");
 
 const fs = require("fs");
 const path = require("path");
-// Check if the uploads folder exists; if not, create it
-if (!fs.existsSync(uploadFolder)) {
-  fs.mkdirSync(uploadFolder, { recursive: true });
-}
-
-const multer = require("multer");
-
-// Configure multer storage with a prefix "edu" for filenames
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadFolder); // Save in 'uploads' folder
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "edu-" + uniqueSuffix + path.extname(file.originalname)); // Prefix with 'edu'
-  },
-});
-
-const upload = multer({ storage: storage });
 
 exports.createCourse = [
-  upload.single("image"), // 'courseImage' is the key for the file in the form-data
+  commonjs.single("image"), // 'image' is the key for the file in the form-data
   async (req, res) => {
     const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
     try {
@@ -51,7 +31,7 @@ exports.createCourse = [
 ];
 
 exports.updateCourse = [
-  upload.single("image"), // Handling single file upload under 'image'
+  commonjs.single("image"), // Handling single file upload under 'image'
   async (req, res) => {
     try {
       const toUpdate = JSON.parse(req.body.data); // Parsing the 'data' field as JSON
@@ -70,7 +50,6 @@ exports.updateCourse = [
       res.status(200).json({
         message: "Course updated successfully",
         status: "success",
-        //data: course,
       });
     } catch (err) {
       console.error(err);
@@ -302,7 +281,7 @@ exports.updateCourseSectionDetail = async (req, res) => {
 //course section folder apis
 
 exports.saveCourseSectionFolder = [
-  upload.array("files"), // 'files' is the field name for multiple files
+  commonjs.array("files"), // 'files' is the field name for multiple files
   async (req, res) => {
     try {
       const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
@@ -332,7 +311,7 @@ exports.saveCourseSectionFolder = [
 ];
 
 exports.updateCourseSectionFolder = [
-  upload.array("files"), // 'files' is the field name for multiple files
+  commonjs.array("files"), // 'files' is the field name for multiple files
   async (req, res) => {
     try {
       const toUpdate = JSON.parse(req.body.data); // Parse JSON data from the request body

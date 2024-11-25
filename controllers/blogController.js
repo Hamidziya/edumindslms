@@ -1,17 +1,70 @@
 const User = require("../models/User");
 const Blog = require("../models/Blog");
 
-exports.saveBlog = async (req, res) => {
-  const tosave = req.body.data;
-  try {
-    const user = await Blog.create(tosave);
-    return res
-      .status(200)
-      .json({ message: "New Blog Saved", status: "success", data: user });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+const commonjs = require("../config/common");
+
+const fs = require("fs");
+const path = require("path");
+
+exports.saveBlog = [
+  commonjs.single("image"), // 'image' is the key for the file in the form-data
+  async (req, res) => {
+    const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
+    try {
+      // Save only the file name in the 'toSave' data
+      if (req.file) {
+        toSave.blogImage = req.file.filename; // Save only filename in toSave
+      }
+
+      const newBlog = await Blog.create(toSave);
+
+      res.status(201).json({
+        message: "Blog added successfully",
+        status: "success",
+        data: newBlog,
+      });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+];
+
+exports.updateBlog = [
+  commonjs.single("image"), // Handling single file upload under 'image'
+  async (req, res) => {
+    try {
+      const toUpdate = JSON.parse(req.body.data); // Parsing the 'data' field as JSON
+      const blogId = toUpdate.blogId;
+
+      // Find the blog by primary key
+      const blog = await Blog.findByPk(blogId);
+
+      if (!blog) {
+        return res.status(404).json({ message: "Blog not found" });
+      }
+
+      // If a new image is uploaded, add it to the update data
+      if (req.file) {
+        toUpdate.blogImage = req.file.filename; // Save only filename in toSave
+      }
+
+      // Update the blog with a where clause
+      await Blog.update(toUpdate, {
+        where: {
+          blogId: blogId, // Specify the row to update using blogId
+        },
+      });
+
+      res.status(200).json({
+        message: "Blog updated successfully",
+        status: "success",
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  },
+];
 
 exports.getBlogList = async (req, res) => {
   try {
@@ -53,27 +106,6 @@ exports.getBlogDetail = async (req, res) => {
       status: "success",
       data: blogs,
     });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.updateBlog = async (req, res) => {
-  const toUpdate = req.body.data;
-  const blogId = req.body.data.userid;
-
-  try {
-    const updated = await Blog.update(toUpdate, {
-      where: { blogId: blogId },
-    });
-
-    if (updated) {
-      res
-        .status(200)
-        .json({ message: "Blog updated successfully", status: "success" });
-    } else {
-      res.status(404).json({ message: "Blog not found", status: "error" });
-    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

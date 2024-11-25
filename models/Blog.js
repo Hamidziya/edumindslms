@@ -10,23 +10,30 @@ const Blog = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     isDelete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
     title: {
       type: DataTypes.STRING,
-      allowNull: false,
+      //allowNull: false,
     },
     titleType: {
       type: DataTypes.STRING,
-      allowNull: false,
+      //allowNull: false,
     },
     tag: {
       type: DataTypes.STRING,
-      allowNull: false,
+      //allowNull: false,
     },
     image: {
+      type: DataTypes.STRING,
+    },
+    blogImage: {
       type: DataTypes.STRING,
     },
     day: {
