@@ -64,7 +64,14 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.get("/name/:name", (req, res) => {
   const { name } = req.params;
   return res.json({
-    message: `Welcome Mr./Ms. ${name} To Eduminds Learning Portal`,
+    message: `Welcome Mr./Ms. ${name} To Eduplaced Learning Portal`,
+  });
+});
+
+app.get("/", (req, res) => {
+  const { name } = req.params;
+  return res.json({
+    message: `Welcome To Eduplaced Learning Portal`,
   });
 });
 
