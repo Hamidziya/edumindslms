@@ -48,7 +48,9 @@ exports.createUsers = async (req, res) => {
         role === "student"
       )
     ) {
-      return res.status(403).json({ message: "Unauthorized" });
+      return res
+        .status(403)
+        .json({ message: "You are not allowed to create new users" });
     }
   }
 
