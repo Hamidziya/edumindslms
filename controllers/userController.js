@@ -117,11 +117,6 @@ exports.deleteUser = async (req, res) => {
   const userId = req.body.userId;
 
   try {
-    // const user = await User.findByPk(userId);
-
-    // if (!user) {
-    //   return res.status(404).json({ message: "User not found" });
-    // }
     await User.update(
       { isDelete: true },
       {
@@ -280,33 +275,28 @@ exports.getUserCourseDetail = async (req, res) => {
   try {
     const userId = req.body.userId;
 
-    // Fetch user from the database
     const user = await User.findByPk(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Extract course IDs
     const courseIds = user.courseIds.map((course) => course.courseId);
 
-    // Fetch courses based on the course IDs
     const courses = await Course.findAll({
       where: {
         courseId: courseIds,
       },
     });
 
-    // Format the course details to include courseImage
     const courseDetails = courses.map((course) => ({
       courseId: course.courseId,
       title: course.title,
       description: course.description,
       price: course.price,
-      courseImage: course.courseImage, // Ensure this is correctly mapped
+      courseImage: course.courseImage,
     }));
 
-    // Return the response with the user data and course details
     res.status(200).json({
       username: user.username,
       email: user.email,
