@@ -53,7 +53,7 @@ exports.createUsers = async (req, res) => {
         .json({ message: "You are not allowed to create new users" });
     }
   }
-
+  // new commit to check the private action on git
   try {
     const hashedUsers = await Promise.all(
       users.map(async (user) => {
