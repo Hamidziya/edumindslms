@@ -117,7 +117,7 @@ exports.getActiveCourseListDummy = async (req, res) => {
     const courses = await Course.findAll({
       where: { isDelete: false },
     });
-
+    // check the course length if its greater than zero
     if (courses.length === 0) {
       return res.status(404).json({ message: "No active Course found" });
     }
