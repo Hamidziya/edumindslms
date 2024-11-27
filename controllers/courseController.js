@@ -71,7 +71,7 @@ exports.deleteCourse = async (req, res) => {
     await course.update({
       isDelete: true,
     });
-
+//new comiit
     res.status(200).json({
       message: "Course updated successfully",
       status: "success",
