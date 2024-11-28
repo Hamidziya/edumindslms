@@ -30,28 +30,25 @@ exports.saveBlog = [
 ];
 
 exports.updateBlog = [
-  commonjs.single("image"), // Handling single file upload under 'image'
+  commonjs.single("image"),
   async (req, res) => {
     try {
-      const toUpdate = JSON.parse(req.body.data); // Parsing the 'data' field as JSON
+      const toUpdate = JSON.parse(req.body.data);
       const blogId = toUpdate.blogId;
 
-      // Find the blog by primary key
       const blog = await Blog.findByPk(blogId);
 
       if (!blog) {
         return res.status(404).json({ message: "Blog not found" });
       }
 
-      // If a new image is uploaded, add it to the update data
       if (req.file) {
-        toUpdate.blogImage = req.file.filename; // Save only filename in toSave
+        toUpdate.blogImage = req.file.filename;
       }
 
-      // Update the blog with a where clause
       await Blog.update(toUpdate, {
         where: {
-          blogId: blogId, // Specify the row to update using blogId
+          blogId: blogId,
         },
       });
 

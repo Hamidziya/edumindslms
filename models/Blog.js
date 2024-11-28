@@ -48,6 +48,27 @@ const Blog = sequelize.define(
     region: {
       type: DataTypes.TEXT,
     },
+    //Title,
+    Url: {
+      type: DataTypes.STRING,
+    },
+    //metaTitle,
+    //metaDescription,
+    Keywoards: {
+      type: DataTypes.STRING,
+    },
+    ReadTime: {
+      type: DataTypes.STRING,
+    },
+    AutherName: {
+      type: DataTypes.STRING,
+    },
+    //BlogTag,
+    //BlogDate,
+    // ImageUpload,
+    BlogContent: {
+      type: DataTypes.STRING,
+    },
     //RelationshipType:{
     //   type:DataTypes.TEXT
     // }

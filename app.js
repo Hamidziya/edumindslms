@@ -130,6 +130,29 @@ app.delete("/uploads/:filename?", (req, res) => {
   }
 });
 
+app.get("/uploadList", (req, res) => {
+  const uploadsDir = path.join(__dirname, "uploads");
+
+  // Check if the uploads directory exists
+  fs.access(uploadsDir, fs.constants.F_OK, (err) => {
+    if (err) {
+      return res.status(404).json({ message: "Uploads folder not found" });
+    }
+
+    // Read files in the uploads directory
+    fs.readdir(uploadsDir, (err, files) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ message: "Error reading uploads folder" });
+      }
+
+      // Respond with the list of files
+      res.json({ files });
+    });
+  });
+});
+
 // Delete all files
 app.post("/uploads/:filename?", (req, res) => {
   const { filename } = req.params;
