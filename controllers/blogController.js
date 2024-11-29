@@ -109,7 +109,7 @@ exports.getBlogDetail = async (req, res) => {
 };
 
 exports.deleteBlog = async (req, res) => {
-  const toUpdate = { isDelete: false };
+  const toUpdate = { isDelete: true };
   const blogId = req.body.blogId;
 
   try {

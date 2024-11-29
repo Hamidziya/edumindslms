@@ -18,6 +18,10 @@ const Blog = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
     title: {
       type: DataTypes.STRING,
       //allowNull: false,
