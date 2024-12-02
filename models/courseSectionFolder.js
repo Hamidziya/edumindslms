@@ -32,6 +32,7 @@ const details = sequelize.define(
     links: {
       type: DataTypes.JSON, // Store links as JSON
       //allowNull: true, // Can be null if no links are provided
+      defaultValue: [], // Initialize with an empty array
     },
     files: {
       type: DataTypes.JSON, // Store an array of file details as JSON

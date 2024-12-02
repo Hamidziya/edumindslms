@@ -71,7 +71,7 @@ exports.deleteCourse = async (req, res) => {
     await course.update({
       isDelete: true,
     });
-//new comiit
+    //new comiit
     res.status(200).json({
       message: "Course updated successfully",
       status: "success",
@@ -347,22 +347,9 @@ exports.updateCourseSectionFolder = [
         folder.files = existingFiles; // Update the files array
       }
 
-      // Update the links only if provided
+      // Replace the links array with the new one if provided
       if (toUpdate.links && toUpdate.links.length > 0) {
-        let existingLinks = folder.links || [];
-        const newLinks = toUpdate.links; // Assume new links are objects with a `linkUrl` property
-
-        // Add only unique links to avoid duplicates
-        existingLinks = [
-          ...existingLinks,
-          ...newLinks.filter(
-            (newLink) =>
-              !existingLinks.some(
-                (existingLink) => existingLink.linkUrl === newLink.linkUrl
-              )
-          ),
-        ];
-        folder.links = existingLinks; // Update the links array
+        folder.links = toUpdate.links; // Replace the existing links array with the new one
       }
 
       // Optionally update other fields, if provided in toUpdate (assuming they exist)
