@@ -199,9 +199,8 @@ exports.byUserCourse = async (req, res) => {
       });
     }
 
-    // Direct update using `User.update`
     let result = await User.update(
-      { courseIds: existingCourses }, // Ensure proper JSON format
+      { courseIds: existingCourses },
       { where: { userId: userid } }
     );
 
