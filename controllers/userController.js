@@ -53,7 +53,6 @@ exports.createUsers = async (req, res) => {
         .json({ message: "You are not allowed to create new users" });
     }
   }
-  // new commit to check the private action on git
   try {
     const hashedUsers = await Promise.all(
       users.map(async (user) => {
@@ -115,7 +114,6 @@ exports.getUsers = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-  // const toUpdate = req.body;
   const userId = req.body.userId;
 
   try {
@@ -179,7 +177,6 @@ exports.byUserCourse = async (req, res) => {
   const { userid, courseIds: newCourses } = req.body;
 
   try {
-    // Fetch user by ID
     const user = await User.findByPk(userid);
 
     if (!user) {

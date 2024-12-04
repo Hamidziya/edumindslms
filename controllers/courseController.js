@@ -382,7 +382,7 @@ exports.updateCourseSectionFolder = [
 ];
 
 exports.getCourseSectionFolderList = async (req, res) => {
-  const { courseSectionId } = req.body; // Extract `sectionId` from the request body
+  const { courseSectionId } = req.body;
 
   try {
     // Validate `sectionId`
