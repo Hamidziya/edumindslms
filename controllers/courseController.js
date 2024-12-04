@@ -311,12 +311,11 @@ exports.saveCourseSectionFolder = [
 ];
 
 exports.updateCourseSectionFolder = [
-  commonjs.array("files"), // 'files' is the field name for multiple files
+  commonjs.array("files"),
   async (req, res) => {
     try {
-      const toUpdate = JSON.parse(req.body.data); // Parse JSON data from the request body
+      const toUpdate = JSON.parse(req.body.data);
 
-      // Find the folder by ID
       const folder = await Detail.findByPk(toUpdate.folderId);
 
       if (!folder) {
@@ -326,15 +325,12 @@ exports.updateCourseSectionFolder = [
         });
       }
 
-      // Update the folder only with available data, skipping empty fields
       if (req.files && req.files.length > 0) {
-        // Process the new files if provided
         let existingFiles = folder.files || [];
         const newFiles = req.files.map((file) => ({
-          filename: file.filename, // Save only the filename
+          filename: file.filename,
         }));
 
-        // Add only unique files to avoid duplicates
         existingFiles = [
           ...existingFiles,
           ...newFiles.filter(
@@ -344,26 +340,21 @@ exports.updateCourseSectionFolder = [
               )
           ),
         ];
-        folder.files = existingFiles; // Update the files array
+        folder.files = existingFiles;
       }
 
-      // Replace the links array with the new one if provided
       if (toUpdate.links && toUpdate.links.length > 0) {
-        folder.links = toUpdate.links; // Replace the existing links array with the new one
+        folder.links = toUpdate.links;
       }
 
-      // Optionally update other fields, if provided in toUpdate (assuming they exist)
       if (toUpdate.title) {
-        folder.title = toUpdate.title; // Update title if provided
+        folder.title = toUpdate.title;
       }
 
       if (toUpdate.description) {
-        folder.description = toUpdate.description; // Update description if provided
+        folder.description = toUpdate.description;
       }
 
-      // Add other fields here as necessary (e.g., 'status', 'updatedAt', etc.)
-
-      // Save the updated folder
       await folder.save();
 
       res.status(200).json({
