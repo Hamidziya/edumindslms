@@ -376,7 +376,6 @@ exports.getCourseSectionFolderList = async (req, res) => {
   const { courseSectionId } = req.body;
 
   try {
-    // Validate `sectionId`
     if (!courseSectionId) {
       return res.status(400).json({
         status: "error",
@@ -384,12 +383,10 @@ exports.getCourseSectionFolderList = async (req, res) => {
       });
     }
 
-    // Fetch the course section folder by `sectionId`
     const folder = await Detail.findAll({
-      where: { isDelete: false, courseSectionId: courseSectionId }, // Assuming `courseSectionId` is the column name for the section ID
+      where: { isDelete: false, courseSectionId: courseSectionId },
     });
 
-    // Check if the folder exists
     if (!folder) {
       return res.status(404).json({
         status: "error",
@@ -400,7 +397,7 @@ exports.getCourseSectionFolderList = async (req, res) => {
     res.status(200).json({
       message: "Course section folder retrieved successfully",
       status: "success",
-      data: folder, // Return the folder details
+      data: folder,
     });
   } catch (err) {
     res.status(500).json({

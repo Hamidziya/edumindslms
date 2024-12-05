@@ -142,7 +142,7 @@ exports.activateBlog = async (req, res) => {
       res.status(200).json({
         message: "Blog Updated successfully",
         status: "success",
-        data: updated,
+        //data: updated,
       });
     } else {
       res.status(404).json({ message: "Blog not found", status: "error" });
