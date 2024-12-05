@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const Blog = require("../models/Blog");
-
+const { convert } = require("html-to-text");
 const commonjs = require("../config/common");
 
 const fs = require("fs");
@@ -70,14 +70,22 @@ exports.getBlogList = async (req, res) => {
         isDelete: false,
       },
     });
-    if (!blogs) {
+
+    if (!blogs || blogs.length === 0) {
       return res.status(404).json({ message: "Blog Not Found" });
     }
+
+    const sanitizedBlogs = blogs.map((blog) => {
+      return {
+        ...blog.toJSON(),
+        description: convert(blog.description),
+      };
+    });
 
     res.status(200).json({
       message: "Blog List",
       status: "success",
-      data: blogs,
+      data: sanitizedBlogs,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
