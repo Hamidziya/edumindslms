@@ -265,14 +265,14 @@ exports.saveReviewBlog = async (req, res) => {
   }
 };
 
-// exports.saveReviewDummy = async (req, res) => {
-//   const tosave = req.body.data;
-//   try {
-//     const user = await Blog.create(tosave);
-//     return res
-//       .status(200)
-//       .json({ message: "New Blog Saved", status: "success", data: user });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+exports.saveReviewDummy = async (req, res) => {
+  const tosave = req.body.data;
+  try {
+    const user = await Blog.create(tosave);
+    return res
+      .status(200)
+      .json({ message: "New Blog Saved", status: "success", data: user });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
