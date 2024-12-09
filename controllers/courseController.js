@@ -330,10 +330,6 @@ exports.updateCourseSectionFolder = [
         const newFiles = req.files.map((file) => ({
           filename: file.filename,
         }));
-        // if(req.files || req.files.length>0){
-        //   let newfiles = folder.files ||[]
-        //   let constfiles = req.files.map((file) =>({filename:file.filename}))
-        // }
 
         existingFiles = [
           ...existingFiles,
