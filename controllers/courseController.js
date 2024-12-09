@@ -8,13 +8,12 @@ const fs = require("fs");
 const path = require("path");
 
 exports.createCourse = [
-  commonjs.single("image"), // 'image' is the key for the file in the form-data
+  commonjs.single("image"),
   async (req, res) => {
-    const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
+    const toSave = JSON.parse(req.body.data);
     try {
-      // Save only the file name in the 'toSave' data
       if (req.file) {
-        toSave.courseImage = req.file.filename; // Save only filename in toSave
+        toSave.courseImage = req.file.filename;
       }
 
       const newCourse = await Course.create(toSave);
@@ -31,10 +30,10 @@ exports.createCourse = [
 ];
 
 exports.updateCourse = [
-  commonjs.single("image"), // Handling single file upload under 'image'
+  commonjs.single("image"),
   async (req, res) => {
     try {
-      const toUpdate = JSON.parse(req.body.data); // Parsing the 'data' field as JSON
+      const toUpdate = JSON.parse(req.body.data);
       const courseId = toUpdate.courseId;
 
       const course = await Course.findByPk(courseId);
@@ -43,7 +42,7 @@ exports.updateCourse = [
         return res.status(404).json({ message: "Course not found" });
       }
       if (req.file) {
-        toUpdate.courseImage = req.file.filename; // Save only filename in toSave
+        toUpdate.courseImage = req.file.filename;
       }
       await course.update(toUpdate);
 
@@ -71,7 +70,6 @@ exports.deleteCourse = async (req, res) => {
     await course.update({
       isDelete: true,
     });
-    //new comiit
     res.status(200).json({
       message: "Course updated successfully",
       status: "success",
@@ -92,16 +90,6 @@ exports.getActiveCourseList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    // // Add the 'uploads/' path to each course's courseImage field before sending the response
-    // const coursesWithImagePath = courses.map((course) => {
-    //   return {
-    //     ...course.toJSON(),
-    //     courseImage: course.courseImage
-    //       ? `uploads/${course.courseImage}`
-    //       : null,
-    //   };
-    // });
-
     res.status(200).json({
       message: "Course List",
       status: "success",
@@ -117,7 +105,6 @@ exports.getActiveCourseListDummy = async (req, res) => {
     const courses = await Course.findAll({
       where: { isDelete: false },
     });
-    // check the course length if its greater than zero
     if (courses.length === 0) {
       return res.status(404).json({ message: "No active Course found" });
     }
@@ -152,7 +139,6 @@ exports.createCourseSection = async (req, res) => {
   try {
     const newCourse = await coursesection.create(toSave);
 
-    //res.status(201).json(newCourse);
     return res
       .status(200)
       .json({ message: "section created", status: "success", data: newCourse });
@@ -227,7 +213,6 @@ exports.createCourseSectionDetail = async (req, res) => {
   try {
     const newCourse = await Detail.create(toSave);
 
-    //res.status(201).json(newCourse);
     return res.status(200).json({
       message: "section detail created",
       status: "success",
@@ -281,15 +266,14 @@ exports.updateCourseSectionDetail = async (req, res) => {
 //course section folder apis
 
 exports.saveCourseSectionFolder = [
-  commonjs.array("files"), // 'files' is the field name for multiple files
+  commonjs.array("files"),
   async (req, res) => {
     try {
-      const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
+      const toSave = JSON.parse(req.body.data);
 
-      // Save file information in the 'toSave' data
       if (req.files && req.files.length > 0) {
         toSave.files = req.files.map((file) => ({
-          filename: file.filename, // Save only the filename
+          filename: file.filename,
         }));
       }
 
