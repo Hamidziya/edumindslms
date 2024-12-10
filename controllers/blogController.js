@@ -7,13 +7,12 @@ const fs = require("fs");
 const path = require("path");
 
 exports.saveBlog = [
-  commonjs.single("image"), // 'image' is the key for the file in the form-data
+  commonjs.single("image"),
   async (req, res) => {
-    const toSave = JSON.parse(req.body.data); // Parse JSON data from the request body
+    const toSave = JSON.parse(req.body.data);
     try {
-      // Save only the file name in the 'toSave' data
       if (req.file) {
-        toSave.blogImage = req.file.filename; // Save only filename in toSave
+        toSave.blogImage = req.file.filename;
       }
 
       const newBlog = await Blog.create(toSave);
@@ -231,8 +230,6 @@ exports.getReviewDetail = async (req, res) => {
 };
 
 exports.getReviewList = async (req, res) => {
-  //const blogId = req.body.blogId;
-
   try {
     const blogs = await Blog.findAll({
       where: {
