@@ -27,13 +27,6 @@ exports.getAttendance = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // await user.update({
-    //   username: username,
-    //   email: email || user.email,
-    //   role: role || user.role,
-    //   //companyName: "Eduminds"
-    // });
-
     res.status(200).json({
       message: "Attendance List",
       status: "success",
