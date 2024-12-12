@@ -34,6 +34,9 @@ const Blog = sequelize.define(
       type: DataTypes.STRING,
       //allowNull: false,
     },
+    og: {
+      type: DataTypes.STRING,
+    },
     image: {
       type: DataTypes.STRING,
     },
