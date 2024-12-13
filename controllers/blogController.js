@@ -74,17 +74,17 @@ exports.getBlogList = async (req, res) => {
       return res.status(404).json({ message: "Blog Not Found" });
     }
 
-    const sanitizedBlogs = blogs.map((blog) => {
-      return {
-        ...blog.toJSON(),
-        description: convert(blog.description),
-      };
-    });
+    // const sanitizedBlogs = blogs.map((blog) => {
+    //   return {
+    //     ...blog.toJSON(),
+    //     description: convert(blog.description),
+    //   };
+    // });
 
     res.status(200).json({
       message: "Blog List",
       status: "success",
-      data: sanitizedBlogs,
+      data: blogs,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
