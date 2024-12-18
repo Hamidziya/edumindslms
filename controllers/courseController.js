@@ -338,9 +338,6 @@ exports.updateCourseSectionFolder = [
       if (toUpdate.description) {
         folder.description = toUpdate.description;
       }
-      // if (toUpdate.newCourse) {
-      //   folder.newCourse = toUpdate.newCourse;
-      // }
 
       await folder.save();
 
