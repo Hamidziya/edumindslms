@@ -1,9 +1,14 @@
 const express = require("express");
 const { saveEvent } = require("../controllers/eventController");
-const { getBlogList } = require("../controllers/blogController");
-const { getBlogDetail } = require("../controllers/blogController");
-const { updateBlog } = require("../controllers/blogController");
-const { deleteBlog } = require("../controllers/blogController");
+const {
+  getBlogList,
+  getBlogDetail,
+  updateBlog,
+  deleteBlog,
+} = require("../controllers/blogController");
+// const { getBlogDetail } = require("../controllers/blogController");
+// const { updateBlog } = require("../controllers/blogController");
+// const { deleteBlog } = require("../controllers/blogController");
 
 const auth = require("../middleware/auth");
 const router = express.Router();
