@@ -115,22 +115,6 @@ exports.getActiveCourseListDummy = async (req, res) => {
   }
 };
 
-exports.getActiveCourseListDummy1 = async (req, res) => {
-  try {
-    const courses = await Course.findAll({
-      where: { isDelete: false },
-    });
-
-    if (courses.length === 0) {
-      return res.status(404).json({ message: "No active Course found" });
-    }
-
-    res.status(200).json(courses);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
 // course section apis
 
 exports.createCourseSection = async (req, res) => {
