@@ -183,7 +183,6 @@ exports.byUserCourse = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Merge new courses with existing ones
     let existingCourses = user.courseIds || [];
     if (Array.isArray(newCourses)) {
       newCourses.forEach((newCourse) => {
