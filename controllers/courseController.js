@@ -410,6 +410,12 @@ exports.deleteCourseSectionFolderListNew = async (req, res) => {
         .json({ message: "Course section folder not found" });
     }
 
+    // if (!course) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "Course section folder not found" });
+    // }
+
     await course.update({
       isDelete: true,
     });
