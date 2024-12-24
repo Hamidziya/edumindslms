@@ -218,10 +218,6 @@ exports.getActiveCourseSectionDetailList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    // if (courses.length === 0) {
-    //   return res.status(404).json({ message: "No active Course found" });
-    // }
-
     res.status(200).json({
       message: "Course Section Detail List",
       status: "success",
@@ -413,12 +409,6 @@ exports.deleteCourseSectionFolderListNew = async (req, res) => {
         .status(404)
         .json({ message: "Course section folder not found" });
     }
-
-    // if (!course) {
-    //   return res
-    //     .status(404)
-    //     .json({ message: "Course section folder not found" });
-    // }
 
     await course.update({
       isDelete: true,
