@@ -261,12 +261,6 @@ exports.saveCourseSectionFolder = [
         }));
       }
 
-      // if (req.files && req.files.length > 0) {
-      //   toSave.files = req.files.map((file) => ({
-      //     filename: file.filename,
-      //   }));
-      // }
-
       const newFolder = await Detail.create(toSave);
 
       res.status(201).json({
