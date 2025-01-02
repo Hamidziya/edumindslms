@@ -362,13 +362,6 @@ exports.getCourseSectionFolderList = async (req, res) => {
       });
     }
 
-    // if (!folder) {
-    //   return res.status(404).json({
-    //     status: "error",
-    //     message: "Course section folder not found",
-    //   });
-    // }
-
     res.status(200).json({
       message: "Course section folder retrieved successfully",
       status: "success",
