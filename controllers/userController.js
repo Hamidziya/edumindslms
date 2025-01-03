@@ -126,7 +126,6 @@ exports.deleteUser = async (req, res) => {
     res.status(200).json({
       message: "User Deleted successfully",
       status: "success",
-      //data: user,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -145,8 +144,8 @@ exports.updateUserPassword = async (req, res) => {
     }
 
     const originalData = { ...user.get() };
-
     let newuser = await user.update(toUpdate);
+    // let newuser = await user.update(toUpdate);
 
     const changedFields = [];
     Object.keys(toUpdate).forEach((field) => {
