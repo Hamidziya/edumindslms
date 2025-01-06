@@ -197,6 +197,12 @@ exports.createCourseSectionDetail = async (req, res) => {
   try {
     const newCourse = await Detail.create(toSave);
 
+    // return res.status(200).json({
+    //   message: "section detail created",
+    //   status: "success",
+    //   data: newCourse,
+    // });
+
     return res.status(200).json({
       message: "section detail created",
       status: "success",
