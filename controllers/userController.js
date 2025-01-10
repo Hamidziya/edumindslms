@@ -239,6 +239,7 @@ exports.getUserCourse = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
     const courseIds = user.courseIds.map((course) => course.courseId);
     const courses = await Course.findAll({
       where: {
