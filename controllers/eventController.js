@@ -33,7 +33,7 @@ exports.updateEvent = async (req, res) => {
       description: description || event.description,
     });
 
-    res.status(200).json({ message: "Event updated successfully", user });
+    res.status(200).json({ message: "Event updated successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
