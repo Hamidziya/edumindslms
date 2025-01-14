@@ -242,6 +242,10 @@ exports.updateCourseSectionDetail = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // if (!courseSection) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
+
     await courseSection.update(toUpdate);
 
     res.status(200).json({ message: "section updated successfully", user });
