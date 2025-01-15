@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const User = require("../models/User");
+const university = require("../models/university");
 const Detail = require("../models/courseSectionFolder");
 
 require("dotenv").config();
 
-exports.register = async (req, res) => {
+exports.uniRegister = async (req, res) => {
   const toSave = req.body.data;
   try {
-    const users = await User.findAll({
+    const users = await university.findAll({
       where: {
         email: toSave.email,
       },
