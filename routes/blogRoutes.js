@@ -3,7 +3,13 @@ const { saveBlog } = require("../controllers/blogController");
 const { getBlogList } = require("../controllers/blogController");
 const { getBlogDetail } = require("../controllers/blogController");
 const { updateBlog } = require("../controllers/blogController");
-const { deleteBlog, activateBlog } = require("../controllers/blogController");
+const {
+  deleteBlog,
+  activateBlog,
+  getBlogListEduminds,
+  getBlogListEduplaced,
+  getBlogListEthree,
+} = require("../controllers/blogController");
 
 const auth = require("../middleware/auth");
 const router = express.Router();
@@ -14,5 +20,8 @@ router.get("/getBlogDetail", getBlogDetail);
 router.post("/updateBlog", updateBlog);
 router.post("/deleteBlog", deleteBlog);
 router.post("/activateBlog", activateBlog);
+router.post("/getBlogListEduminds", getBlogListEduminds);
+router.post("/getBlogListEduplaced", getBlogListEduplaced);
+router.post("/getBlogListEthree", getBlogListEthree);
 
 module.exports = router;

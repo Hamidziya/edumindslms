@@ -91,6 +91,96 @@ exports.getBlogList = async (req, res) => {
   }
 };
 
+exports.getBlogListEduminds = async (req, res) => {
+  try {
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+        blogType: "eduminds",
+      },
+    });
+
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
+
+    // const sanitizedBlogs = blogs.map((blog) => {
+    //   return {
+    //     ...blog.toJSON(),
+    //     description: convert(blog.description),
+    //   };
+    // });
+
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getBlogListEduplaced = async (req, res) => {
+  try {
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+        blogType: "eduplaced",
+      },
+    });
+
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
+
+    // const sanitizedBlogs = blogs.map((blog) => {
+    //   return {
+    //     ...blog.toJSON(),
+    //     description: convert(blog.description),
+    //   };
+    // });
+
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getBlogListEthree = async (req, res) => {
+  try {
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+        blogType: "ethree",
+      },
+    });
+
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
+
+    // const sanitizedBlogs = blogs.map((blog) => {
+    //   return {
+    //     ...blog.toJSON(),
+    //     description: convert(blog.description),
+    //   };
+    // });
+
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getBlogDetail = async (req, res) => {
   const blogId = req.body.blogId;
 
