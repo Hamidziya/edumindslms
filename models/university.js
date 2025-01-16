@@ -32,9 +32,9 @@ const University = sequelize.define(
     // day: {
     //   type: DataTypes.TEXT,
     // },
-    // description: {
-    //   type: DataTypes.TEXT,
-    // },
+    description: {
+      type: DataTypes.TEXT,
+    },
     // date: {
     //   type: DataTypes.DATE,
     // },
