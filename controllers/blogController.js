@@ -64,22 +64,23 @@ exports.updateBlog = [
 
 exports.getBlogList = async (req, res) => {
   try {
+    const { blogType } = req.body;
+
+    const filterCondition = {
+      isDelete: false,
+    };
+
+    if (blogType) {
+      filterCondition.blogType = blogType;
+    }
+
     const blogs = await Blog.findAll({
-      where: {
-        isDelete: false,
-      },
+      where: filterCondition,
     });
 
     if (!blogs || blogs.length === 0) {
       return res.status(404).json({ message: "Blog Not Found" });
     }
-
-    // const sanitizedBlogs = blogs.map((blog) => {
-    //   return {
-    //     ...blog.toJSON(),
-    //     description: convert(blog.description),
-    //   };
-    // });
 
     res.status(200).json({
       message: "Blog List",
@@ -103,13 +104,6 @@ exports.getBlogListEduminds = async (req, res) => {
     if (!blogs || blogs.length === 0) {
       return res.status(404).json({ message: "Blog Not Found" });
     }
-
-    // const sanitizedBlogs = blogs.map((blog) => {
-    //   return {
-    //     ...blog.toJSON(),
-    //     description: convert(blog.description),
-    //   };
-    // });
 
     res.status(200).json({
       message: "Blog List",
