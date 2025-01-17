@@ -68,6 +68,7 @@ exports.getBlogList = async (req, res) => {
 
     const filterCondition = {
       isDelete: false,
+      isActive: true,
     };
 
     if (blogType) {
@@ -157,13 +158,6 @@ exports.getBlogListEthree = async (req, res) => {
     if (!blogs || blogs.length === 0) {
       return res.status(404).json({ message: "Blog Not Found" });
     }
-
-    // const sanitizedBlogs = blogs.map((blog) => {
-    //   return {
-    //     ...blog.toJSON(),
-    //     description: convert(blog.description),
-    //   };
-    // });
 
     res.status(200).json({
       message: "Blog List",
