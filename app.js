@@ -18,7 +18,8 @@ const allowedOrigins = [
   "http://localhost:5173", // Development frontend
   "https://test.eduplaced.com", // Testing frontend
   "https://study.eduplaced.com",
-  "https://eduplaced.edumindslearning.com", // Production frontend
+  "https://eduplaced.edumindslearning.com",
+  "https://system.e3mediacrafters.com", // Production frontend
 ];
 
 // Enable CORS for specific origins
