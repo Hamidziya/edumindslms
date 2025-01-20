@@ -93,6 +93,37 @@ exports.getBlogList = async (req, res) => {
   }
 };
 
+exports.getBlogListDashboard = async (req, res) => {
+  try {
+    const { blogType } = req.body;
+
+    const filterCondition = {
+      isDelete: false,
+      // isActive: true,
+    };
+
+    if (blogType) {
+      filterCondition.blogType = blogType;
+    }
+
+    const blogs = await Blog.findAll({
+      where: filterCondition,
+    });
+
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
+
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getBlogListEduminds = async (req, res) => {
   try {
     const blogs = await Blog.findAll({
