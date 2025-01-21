@@ -219,6 +219,10 @@ exports.deleteUserCourse = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    // if (!user) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
     let existingCourses = user.courseIds || [];
     const updatedCourses = existingCourses.filter(
       (course) => course.courseId !== courseIdToDelete
