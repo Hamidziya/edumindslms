@@ -45,6 +45,10 @@ exports.updateBlog = [
         toUpdate.blogImage = req.file.filename;
       }
 
+      // if (req.file) {
+      //   toUpdate.blogImage = req.file.filename;
+      // }
+
       await Blog.update(toUpdate, {
         where: {
           blogId: blogId,
