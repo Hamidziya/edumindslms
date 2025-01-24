@@ -160,10 +160,6 @@ exports.deleteCourseSection = async (req, res) => {
       return res.status(404).json({ message: "Course section not found" });
     }
 
-    // if (!course) {
-    //   return res.status(404).json({ message: "Course section not found" });
-    // }
-
     await course.update({
       isDelete: true,
     });
