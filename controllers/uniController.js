@@ -6,7 +6,7 @@ const Detail = require("../models/courseSectionFolder");
 require("dotenv").config();
 
 exports.uniRegister = async (req, res) => {
-  const toSave = req.body.data;
+  const toSave = req.body;
   try {
     const users = await university.findAll({
       where: {
@@ -16,7 +16,7 @@ exports.uniRegister = async (req, res) => {
     if (users.length > 0) {
       return res.status(201).json({ message: "User Already Exist" });
     }
-    const user = await User.create(toSave);
+    const user = await university.create(toSave);
     res.status(200).json({
       message: "User Registered successfully",
       status: "success",

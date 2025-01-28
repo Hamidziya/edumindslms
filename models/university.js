@@ -14,18 +14,22 @@ const University = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    // title: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    // },
-    // titleType: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    // },
-    // tag: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    // },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     // image: {
     //   type: DataTypes.STRING,
     // },
@@ -33,7 +37,7 @@ const University = sequelize.define(
     //   type: DataTypes.TEXT,
     // },
     description: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
     },
     // date: {
     //   type: DataTypes.DATE,
@@ -43,7 +47,7 @@ const University = sequelize.define(
     // },
   },
   {
-    tableName: "events",
+    tableName: "university",
     freezeTableName: true,
   }
 );
