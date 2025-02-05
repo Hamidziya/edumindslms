@@ -116,7 +116,6 @@ exports.getActiveCourseListDummy = async (req, res) => {
 };
 
 // course section apis
-
 exports.createCourseSection = async (req, res) => {
   const toSave = req.body.data;
 
@@ -141,6 +140,10 @@ exports.updateCourseSection = async (req, res) => {
     if (!courseSection) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    // if (!courseSection) {
+    //   return res.status(404).json({ message: "User not found" });
+    // }
 
     await courseSection.update(toUpdate);
 
