@@ -180,6 +180,10 @@ exports.getActiveCourseSectionList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
+    // if (courses.length) {
+    //   return res.stattus(200).json({ message: "No active course found" });
+    // }
+
     res.status(200).json({
       message: "Course Section List",
       status: "success",

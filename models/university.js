@@ -18,6 +18,11 @@ const University = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
+    isRegistered: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    password: { type: DataTypes.STRING, allowNull: false },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -30,26 +35,48 @@ const University = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // image: {
-    //   type: DataTypes.STRING,
-    // },
-    // day: {
-    //   type: DataTypes.TEXT,
-    // },
+    gender: {
+      type: DataTypes.STRING,
+    },
+    gpa: {
+      type: DataTypes.STRING,
+    },
+    houserholdIncome: {
+      type: DataTypes.STRING,
+    },
+    needbasedAid: {
+      type: DataTypes.DATE,
+    },
+    appFile: {
+      type: DataTypes.STRING,
+    },
+    collegeName: {
+      type: DataTypes.STRING,
+    },
     description: {
       type: DataTypes.STRING,
     },
-    // date: {
-    //   type: DataTypes.DATE,
-    // },
-    // region: {
-    //   type: DataTypes.TEXT,
-    // },
+    dob: {
+      type: DataTypes.DATE,
+    },
+    country: {
+      type: DataTypes.STRING,
+    },
   },
   {
     tableName: "university",
     freezeTableName: true,
   }
 );
+
+University.beforeCreate(async (university) => {
+  university.password = await bcrypt.hash(university.password, 10);
+});
+
+University.beforeUpdate(async (university) => {
+  if (university.changed("password")) {
+    university.password = await bcrypt.hash(university.password, 10);
+  }
+});
 
 module.exports = University;

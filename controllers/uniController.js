@@ -7,6 +7,7 @@ require("dotenv").config();
 
 exports.uniRegister = async (req, res) => {
   const toSave = req.body;
+  toSave.isRegistered = true;
   try {
     const users = await university.findAll({
       where: {
@@ -18,7 +19,7 @@ exports.uniRegister = async (req, res) => {
     }
     const user = await university.create(toSave);
     res.status(200).json({
-      message: "User Registered successfully",
+      message: "Registered successfully",
       status: "success",
       data: user,
     });
@@ -27,6 +28,26 @@ exports.uniRegister = async (req, res) => {
   }
 };
 
+// exports.createStudent = async (req, res) => {
+//   const tosave = req.body.data;
+//   try {
+//     const users = await university.findAll({
+//       where: {
+//         email: tosave.email,
+//       },
+//     });
+//     if (users.length > 0) {
+//       return res.status(201).json({ message: "User Already Exist" });
+//     }
+
+//     const newUser = await university.create(tosave);
+//     res
+//       .status(201)
+//       .json({ message: "Student Created", status: "success", data: newUser });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 // exports.getRegistratedUsers = async (req, res) => {
 //   try {
 //     const users = await User.findAll({

@@ -64,18 +64,18 @@ exports.login = async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign(
-      { id: user.userId, role: user.role },
-      process.env.JWT_SECRET,
-      { expiresIn: "24h" }
-    );
+    // const token = jwt.sign(
+    //   { id: user.userId, role: user.role },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: "24h" }
+    // );
 
     // Return token and some user info (but not sensitive data like password)
     res.json({
       token,
       user,
       email,
-      password,
+      //password,
     });
   } catch (err) {
     console.error("Error during login process:", err);
