@@ -180,10 +180,6 @@ exports.getActiveCourseSectionList = async (req, res) => {
       return res.status(404).json({ message: "No active Course found" });
     }
 
-    // if (courses.length) {
-    //   return res.stattus(200).json({ message: "No active course found" });
-    // }
-
     res.status(200).json({
       message: "Course Section List",
       status: "success",
@@ -199,6 +195,9 @@ exports.createCourseSectionDetail = async (req, res) => {
 
   try {
     const newCourse = await Detail.create(toSave);
+    // if(toSave.Course){
+    //   toSave.Course = "DBA"
+    // }
 
     return res.status(200).json({
       message: "section detail created",
