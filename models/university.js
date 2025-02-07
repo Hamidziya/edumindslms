@@ -62,6 +62,9 @@ const University = sequelize.define(
     country: {
       type: DataTypes.STRING,
     },
+    origin: {
+      type: DataTypes.STRING,
+    },
   },
   {
     tableName: "university",
