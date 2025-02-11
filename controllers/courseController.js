@@ -162,7 +162,6 @@ exports.deleteCourseSection = async (req, res) => {
     await course.update({
       isDelete: true,
     });
-    //console.log("courseId" + course);
     res.status(200).json({ message: "section Deleted", status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
