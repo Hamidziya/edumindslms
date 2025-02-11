@@ -63,6 +63,8 @@ exports.deleteCourse = async (req, res) => {
   try {
     const course = await Course.findByPk(courseId);
 
+    //console.log("courseIds"+course)
+
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
