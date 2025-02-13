@@ -355,7 +355,7 @@ exports.getCourseSectionFolderList = async (req, res) => {
       where: { isDelete: false, courseSectionId: courseSectionId },
     });
 
-    console.log("New data to get the course section detail");
+    //console.log("New data to get the course section detail");
 
     if (!folder) {
       return res.status(404).json({
