@@ -2,18 +2,29 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const university = require("../models/university");
 const Detail = require("../models/courseSectionFolder");
-
+const express = require("express");
+const router = express.Router();
+const { Op } = require("sequelize");
+//const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const User = require("../models/User"); // Assuming you have a User model
+const uniOtp = require("../models/uniOtp"); // OTP table
+const crypto = require("crypto");
 require("dotenv").config();
+// Email transporter setup
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER, // Your email
+    pass: process.env.EMAIL_PASS, // Your email password
+  },
+});
 
 exports.uniRegister = async (req, res) => {
   const toSave = req.body;
   toSave.isRegistered = true;
   try {
-    const users = await university.findAll({
-      where: {
-        email: toSave.email,
-      },
-    });
+    const users = await university.findAll({ where: { email: toSave.email } });
     if (users.length > 0) {
       return res.status(201).json({ message: "User Already Exist" });
     }
@@ -70,39 +81,158 @@ exports.createStudent = async (req, res) => {
 //   }
 // };
 
-// exports.login = async (req, res) => {
-//   const { email, password } = req.body;
+exports.universityLogin = async (req, res) => {
+  const { email, password } = req.body;
 
-//   try {
-//     const user = await User.findOne({ where: { email } });
-//     if (!user) {
-//       return res.status(400).json({ message: "Invalid credentials" });
-//     }
+  try {
+    const user = await university.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) {
-//       return res.status(400).json({ message: "Invalid credentials" });
-//     }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
-//     // Generate JWT token
-//     const token = jwt.sign(
-//       { id: user.userId, role: user.role },
-//       process.env.JWT_SECRET,
-//       { expiresIn: "24h" }
-//     );
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.userId, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
 
-//     // Return token and some user info (but not sensitive data like password)
-//     res.json({
-//       token,
-//       user,
-//       email,
-//       password,
-//     });
-//   } catch (err) {
-//     console.error("Error during login process:", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    // Return token and some user info (but not sensitive data like password)
+    res.json({
+      token,
+      user,
+      email,
+      password,
+    });
+  } catch (err) {
+    console.error("Error during login process:", err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+//forget password
+
+// 1️⃣ **Send OTP to Email**
+exports.sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Check if the user exists
+    const user = await User.findOne({
+      where: { email: "vishwakarmapawan266@gmail.com" },
+    });
+    if (!user) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+
+    // Generate a 6-digit OTP
+    const otp = crypto.randomInt(100000, 999999);
+
+    // Check if an OTP already exists for the given email
+    const existingOtp = await uniOtp.findOne({
+      where: { email: "hamiizee4u@gmail.com" },
+    });
+
+    if (existingOtp) {
+      // If OTP exists, update the OTP
+      existingOtp.otp = otp;
+      existingOtp.date = new Date();
+      await existingOtp.save(); // Save the updated OTP in the database
+    } else {
+      // If OTP doesn't exist, create a new OTP record
+      await uniOtp.create({
+        userId: user.userId,
+        email,
+        otp,
+        date: new Date(),
+      });
+    }
+
+    // Send OTP via Email
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your OTP for Password Reset",
+      text: `Your OTP for password reset is ${otp}. It is valid for 5 minutes.`,
+    };
+    await transporter.sendMail(mailOptions);
+
+    res.json({ status: true, message: "OTP sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: "Server error" });
+  }
+};
+
+// 2️⃣ **Verify OTP**
+exports.verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    // Check OTP in DB (valid for 5 minutes)
+    const validOtp = await uniOtp.findOne({
+      where: {
+        email,
+        otp,
+        date: new Date(), // Ensure it's for today
+        time: { [Op.gte]: new Date(Date.now() - 5 * 60000) }, // OTP valid for 5 minutes
+      },
+    });
+
+    if (!validOtp) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid OTP or expired" });
+    }
+
+    res.json({ status: true, message: "OTP verified successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: "Server error" });
+  }
+};
+
+// 3️⃣ **Update New Password**
+exports.updatePassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+
+    // Check OTP again before updating password
+    const validOtp = await uniOtp.findOne({
+      where: {
+        email,
+        otp,
+        date: new Date(),
+        time: { [Op.gte]: new Date(Date.now() - 5 * 60000) }, // Valid for 5 minutes
+      },
+    });
+
+    if (!validOtp) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Invalid OTP or expired" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password in User table
+    await User.update({ password: hashedPassword }, { where: { email } });
+
+    // Delete OTP after successful password reset
+    await uniOtp.destroy({ where: { email } });
+
+    res.json({ status: true, message: "Password updated successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: "Server error" });
+  }
+};
 
 // exports.loginDummy = async (req, res) => {
 //   const { email, password } = req.body;

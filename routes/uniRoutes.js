@@ -1,9 +1,13 @@
 const express = require("express");
-const { uniRegister } = require("../controllers/uniController");
+const {
+  uniRegister,
+  universityLogin,
+  sendOtp,
+} = require("../controllers/uniController");
 const router = express.Router();
 
 router.post("/uniRegister", uniRegister);
-// router.post("/login", login);
-// router.post("/getRegistratedUsers", getRegistratedUsers);
+router.post("/login", universityLogin);
+router.post("/sendOtp", sendOtp);
 
 module.exports = router;
