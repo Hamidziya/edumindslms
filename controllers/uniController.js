@@ -107,7 +107,7 @@ exports.universityLogin = async (req, res) => {
       token,
       user,
       email,
-      password,
+      // password,
     });
   } catch (err) {
     console.error("Error during login process:", err);
