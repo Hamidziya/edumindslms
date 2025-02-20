@@ -124,7 +124,7 @@ exports.sendOtp = async (req, res) => {
 
     // Check if the user exists
     const user = await User.findOne({
-      where: { email: "vishwakarmapawan266@gmail.com" },
+      where: { email: email },
     });
     if (!user) {
       return res.status(404).json({ status: false, message: "User not found" });
@@ -135,7 +135,7 @@ exports.sendOtp = async (req, res) => {
 
     // Check if an OTP already exists for the given email
     const existingOtp = await uniOtp.findOne({
-      where: { email: "hamiizee4u@gmail.com" },
+      where: { email: email },
     });
 
     if (existingOtp) {
