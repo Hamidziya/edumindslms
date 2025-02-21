@@ -95,6 +95,10 @@ exports.universityLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    // if (!isMatch) {
+    //   return res.status(400).json({ message: "Invalid credentials" });
+    // }
+
     // Generate JWT token
     const token = jwt.sign(
       { id: user.userId, role: user.role },
