@@ -346,6 +346,12 @@ exports.getUserCourseDetailNew = async (req, res) => {
       },
     });
 
+    // const courses = await Course.findAll({
+    //   where: {
+    //     courseId: courseIds,
+    //   },
+    // });
+
     const courseDetails = courses.map((course) => ({
       courseId: course.courseId,
       title: course.title,
