@@ -95,10 +95,6 @@ exports.universityLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // if (!isMatch) {
-    //   return res.status(400).json({ message: "Invalid credentials" });
-    // }
-
     // Generate JWT token
     const token = jwt.sign(
       { id: user.userId, role: user.role },
@@ -106,7 +102,6 @@ exports.universityLogin = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    // Return token and some user info (but not sensitive data like password)
     res.json({
       token,
       user,
@@ -121,12 +116,10 @@ exports.universityLogin = async (req, res) => {
 
 //forget password
 
-// 1️⃣ **Send OTP to Email**
 exports.sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
 
-    // Check if the user exists
     const user = await User.findOne({
       where: { email: email },
     });
@@ -134,21 +127,17 @@ exports.sendOtp = async (req, res) => {
       return res.status(404).json({ status: false, message: "User not found" });
     }
 
-    // Generate a 6-digit OTP
     const otp = crypto.randomInt(100000, 999999);
 
-    // Check if an OTP already exists for the given email
     const existingOtp = await uniOtp.findOne({
       where: { email: email },
     });
 
     if (existingOtp) {
-      // If OTP exists, update the OTP
       existingOtp.otp = otp;
       existingOtp.date = new Date();
-      await existingOtp.save(); // Save the updated OTP in the database
+      await existingOtp.save();
     } else {
-      // If OTP doesn't exist, create a new OTP record
       await uniOtp.create({
         userId: user.userId,
         email,
@@ -157,7 +146,6 @@ exports.sendOtp = async (req, res) => {
       });
     }
 
-    // Send OTP via Email
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
@@ -173,18 +161,16 @@ exports.sendOtp = async (req, res) => {
   }
 };
 
-// 2️⃣ **Verify OTP**
 exports.verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
-    // Check OTP in DB (valid for 5 minutes)
     const validOtp = await uniOtp.findOne({
       where: {
         email,
         otp,
-        date: new Date(), // Ensure it's for today
-        time: { [Op.gte]: new Date(Date.now() - 5 * 60000) }, // OTP valid for 5 minutes
+        date: new Date(),
+        time: { [Op.gte]: new Date(Date.now() - 5 * 60000) },
       },
     });
 
@@ -201,18 +187,16 @@ exports.verifyOtp = async (req, res) => {
   }
 };
 
-// 3️⃣ **Update New Password**
 exports.updatePassword = async (req, res) => {
   try {
     const { email, otp, newPassword } = req.body;
 
-    // Check OTP again before updating password
     const validOtp = await uniOtp.findOne({
       where: {
         email,
         otp,
         date: new Date(),
-        time: { [Op.gte]: new Date(Date.now() - 5 * 60000) }, // Valid for 5 minutes
+        time: { [Op.gte]: new Date(Date.now() - 5 * 60000) },
       },
     });
 
@@ -222,13 +206,10 @@ exports.updatePassword = async (req, res) => {
         .json({ status: false, message: "Invalid OTP or expired" });
     }
 
-    // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update password in User table
     await User.update({ password: hashedPassword }, { where: { email } });
 
-    // Delete OTP after successful password reset
     await uniOtp.destroy({ where: { email } });
 
     res.json({ status: true, message: "Password updated successfully" });
