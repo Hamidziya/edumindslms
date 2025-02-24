@@ -174,6 +174,29 @@ exports.getBlogListEduplaced = async (req, res) => {
   }
 };
 
+exports.getBlogListEdumedia = async (req, res) => {
+  try {
+    const blogs = await Blog.findAll({
+      where: {
+        isDelete: false,
+        blogType: "edumedia",
+      },
+    });
+
+    if (!blogs || blogs.length === 0) {
+      return res.status(404).json({ message: "Blog Not Found" });
+    }
+
+    res.status(200).json({
+      message: "Blog List",
+      status: "success",
+      data: blogs,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.getBlogListEthree = async (req, res) => {
   try {
     const blogs = await Blog.findAll({

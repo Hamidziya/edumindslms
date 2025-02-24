@@ -10,6 +10,7 @@ const {
   getBlogListEduplaced,
   getBlogListEthree,
   getBlogListDashboard,
+  getBlogListEdumedia,
 } = require("../controllers/blogController");
 
 const auth = require("../middleware/auth");
@@ -25,5 +26,6 @@ router.post("/getBlogListEduminds", getBlogListEduminds);
 router.post("/getBlogListEduplaced", getBlogListEduplaced);
 router.post("/getBlogListEthree", getBlogListEthree);
 router.post("/getBlogListDashboard", getBlogListDashboard);
+router.post("/getBlogListEdumedia", getBlogListEdumedia);
 
 module.exports = router;
