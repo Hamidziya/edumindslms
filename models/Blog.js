@@ -35,11 +35,11 @@ const Blog = sequelize.define(
       //allowNull: false,
     },
     blogView: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       //allowNull: false,
     },
     likes: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       //allowNull: false,
     },
     tag: {
