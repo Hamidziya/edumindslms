@@ -10,6 +10,8 @@ const courseRoutes = require("./routes/courseRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const eventRoutes = require("./routes/eventRouts");
 const uniRoutes = require("./routes/uniRoutes");
+const seoRoutes = require("./routes/seoroutes");
+const contactRoutes = require("./routes/contactRoutes");
 const User = require("./models/User");
 
 const app = express();
@@ -60,6 +62,8 @@ app.use("/api/holiday", holidayRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/event", eventRoutes);
 app.use("/api/uni", uniRoutes);
+app.use("/api/seo", seoRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Serve files from 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

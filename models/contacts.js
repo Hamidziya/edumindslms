@@ -1,19 +1,19 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db").sequelize;
 
-const Blog = sequelize.define(
-  "blogs",
+const contacts = sequelize.define(
+  "contacts",
   {
-    blogId: {
+    contactId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    // userId: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    // },
     isDelete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -22,15 +22,15 @@ const Blog = sequelize.define(
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },
-    title: {
-      type: DataTypes.STRING,
-      //allowNull: false,
-    },
     blogType: {
       type: DataTypes.STRING,
       //allowNull: false,
     },
-    titleType: {
+    contactType: {
+      type: DataTypes.STRING,
+      //allowNull: false,
+    },
+    email: {
       type: DataTypes.STRING,
       //allowNull: false,
     },
@@ -42,11 +42,11 @@ const Blog = sequelize.define(
       type: DataTypes.INTEGER,
       //allowNull: false,
     },
-    tag: {
-      type: DataTypes.STRING,
+    phone: {
+      type: DataTypes.INTEGER,
       //allowNull: false,
     },
-    og: {
+    subject: {
       type: DataTypes.STRING,
     },
     image: {
@@ -58,44 +58,20 @@ const Blog = sequelize.define(
     day: {
       type: DataTypes.TEXT,
     },
-    description: {
-      type: DataTypes.TEXT,
-    },
-    date: {
-      type: DataTypes.DATE,
-    },
-    region: {
-      type: DataTypes.TEXT,
-    },
-    //Title,
-    Url: {
+    message: {
       type: DataTypes.STRING,
     },
-    //metaTitle,
-    //metaDescription,
-    Keywoards: {
+    firstName: {
       type: DataTypes.STRING,
     },
-    ReadTime: {
+    lastName: {
       type: DataTypes.STRING,
     },
-    AutherName: {
-      type: DataTypes.STRING,
-    },
-    //BlogTag,
-    //BlogDate,
-    // ImageUpload,
-    BlogContent: {
-      type: DataTypes.STRING,
-    },
-    //RelationshipType:{
-    //   type:DataTypes.TEXT
-    // }
   },
   {
-    tableName: "blogs",
+    tableName: "contacts",
     freezeTableName: true,
   }
 );
 
-module.exports = Blog;
+module.exports = contacts;
