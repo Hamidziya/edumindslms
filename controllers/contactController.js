@@ -27,28 +27,6 @@ exports.saveContact = async (req, res) => {
   }
 };
 
-// exports.saveEmailWithName = async (req, res) => {
-//   const toSave = req.body;
-//   try {
-//     const seodata = await seomaildata.findAll({
-//       where: {
-//         email: toSave.email,
-//       },
-//     });
-//     if (seodata.length > 0) {
-//       return res.status(201).json({ message: "User Already Exist" });
-//     }
-//     const user = await seomaildata.create(toSave);
-//     res.status(200).json({
-//       message: "data saved successfully",
-//       status: "success",
-//       data: user,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
-
 exports.listOfTheContacts = async (req, res) => {
   try {
     const contactdata = await contacts.findAll({
