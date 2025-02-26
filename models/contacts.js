@@ -35,15 +35,15 @@ const contacts = sequelize.define(
       //allowNull: false,
     },
     blogView: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       //allowNull: false,
     },
     likes: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       //allowNull: false,
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       //allowNull: false,
     },
     subject: {
