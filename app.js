@@ -12,6 +12,7 @@ const eventRoutes = require("./routes/eventRouts");
 const uniRoutes = require("./routes/uniRoutes");
 const seoRoutes = require("./routes/seoroutes");
 const contactRoutes = require("./routes/contactRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const User = require("./models/User");
 
 const app = express();
@@ -64,6 +65,7 @@ app.use("/api/event", eventRoutes);
 app.use("/api/uni", uniRoutes);
 app.use("/api/seo", seoRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/comments", commentRoutes);
 
 // Serve files from 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
