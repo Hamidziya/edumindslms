@@ -58,7 +58,7 @@ exports.deleteComment = async (req, res) => {
     res.status(200).json({
       message: "comment deleted successfully",
       status: "success",
-      data: comment,
+      //data: comment,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
