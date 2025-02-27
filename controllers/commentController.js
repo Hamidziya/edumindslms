@@ -42,6 +42,29 @@ exports.commentListOnBlog = async (req, res) => {
   }
 };
 
+exports.deleteComment = async (req, res) => {
+  const commentId = req.body.commentId;
+
+  try {
+    const comment = await comments.findByPk(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: "comment not found" });
+    }
+
+    await comment.update({
+      isDelete: true,
+    });
+    res.status(200).json({
+      message: "comment deleted successfully",
+      status: "success",
+      data: comment,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // exports.commentListOnBlog = async (req, res) => {
 //   try {
 //     const commentData = await comments.findAll({
