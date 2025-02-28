@@ -71,6 +71,27 @@ exports.listOfTheEmails = async (req, res) => {
   }
 };
 
+// exports.deleteUserCourse = async (req, res) => {
+//   const { userid, courseIdToDelete } = req.body;
+
+//   try {
+//     const user = await User.findByPk(userid);
+
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     let existingCourses = user.courseIds || [];
+//     const updatedCourses = existingCourses.filter(
+//       (course) => course.courseId !== courseIdToDelete
+//     );
+//     await user.update({ courseIds: updatedCourses });
+
+//     res.status(200).json({ message: "Course removed successfully", user });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
 // exports.login = async (req, res) => {
 //   const { email, password } = req.body;
 
