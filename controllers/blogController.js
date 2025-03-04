@@ -7,12 +7,22 @@ const fs = require("fs");
 const path = require("path");
 
 exports.saveBlog = [
-  commonjs.single("image"),
+  commonjs.fields([
+    { name: "blogImage", maxCount: 1 },
+    { name: "tagImage", maxCount: 1 },
+  ]),
   async (req, res) => {
-    const toSave = JSON.parse(req.body.data);
     try {
-      if (req.file) {
-        toSave.blogImage = req.file.filename;
+      const toSave = JSON.parse(req.body.data);
+
+      // Save blogImage if uploaded
+      if (req.files["blogImage"]) {
+        toSave.blogImage = req.files["blogImage"][0].filename;
+      }
+
+      // Save tagImage if uploaded
+      if (req.files["tagImage"]) {
+        toSave.tagImage = req.files["tagImage"][0].filename;
       }
 
       const newBlog = await Blog.create(toSave);
@@ -29,7 +39,10 @@ exports.saveBlog = [
 ];
 
 exports.updateBlog = [
-  commonjs.single("image"),
+  commonjs.fields([
+    { name: "blogImage", maxCount: 1 },
+    { name: "tagImage", maxCount: 1 },
+  ]),
   async (req, res) => {
     try {
       const toUpdate = JSON.parse(req.body.data);
@@ -41,13 +54,15 @@ exports.updateBlog = [
         return res.status(404).json({ message: "Blog not found" });
       }
 
-      if (req.file) {
-        toUpdate.blogImage = req.file.filename;
+      // Update blogImage if a new file is uploaded
+      if (req.files["blogImage"]) {
+        toUpdate.blogImage = req.files["blogImage"][0].filename;
       }
 
-      // if (req.file) {
-      //   toUpdate.blogImage = req.file.filename;
-      // }
+      // Update tagImage if a new file is uploaded
+      if (req.files["tagImage"]) {
+        toUpdate.tagImage = req.files["tagImage"][0].filename;
+      }
 
       await Blog.update(toUpdate, {
         where: {
