@@ -54,12 +54,10 @@ exports.updateBlog = [
         return res.status(404).json({ message: "Blog not found" });
       }
 
-      // Update blogImage if a new file is uploaded
       if (req.files["blogImage"]) {
         toUpdate.blogImage = req.files["blogImage"][0].filename;
       }
 
-      // Update tagImage if a new file is uploaded
       if (req.files["tagImage"]) {
         toUpdate.tagImage = req.files["tagImage"][0].filename;
       }

@@ -52,6 +52,9 @@ const Blog = sequelize.define(
     tagPartner: {
       type: DataTypes.STRING,
     },
+    //     accreditationPartner:{
+    // type :DataTypes.STRING
+    //     },
     og: {
       type: DataTypes.STRING,
     },
