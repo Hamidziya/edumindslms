@@ -19,6 +19,33 @@ exports.saveComments = async (req, res) => {
   }
 };
 
+exports.editComment = async (req, res) => {
+  const commentId = req.body.commentId;
+  const newContent = req.body;
+
+  try {
+    const comment = await comments.findByPk(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    await comment.update(newContent, {
+      where: {
+        commentId: commentId,
+      },
+    });
+
+    res.status(200).json({
+      message: "Comment updated successfully",
+      status: "success",
+      updatedComment: comment,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.commentListOnBlog = async (req, res) => {
   try {
     const commentData = await comments.findAll({
