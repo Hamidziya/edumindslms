@@ -213,7 +213,7 @@ exports.getActiveCourseSectionDetailList = async (req, res) => {
     });
 
     if (courses.length === 0) {
-      return res.status(404).json({ message: "No active Course found" });
+      return res.status(404).json({ message: "No active Course Found" });
     }
 
     res.status(200).json({
