@@ -39,10 +39,6 @@ exports.saveEmailWithName = async (req, res) => {
       return res.status(201).json({ message: "User Already Exist" });
     }
 
-    // if ((seodata.name = "eduplace")) {
-    //   return res.status(200).json({ message: "new user added" });
-    // }
-
     const user = await seomaildata.create(toSave);
     res.status(200).json({
       message: "data saved successfully",
