@@ -38,6 +38,11 @@ exports.saveEmailWithName = async (req, res) => {
     if (seodata.length > 0) {
       return res.status(201).json({ message: "User Already Exist" });
     }
+
+    // if ((seodata.name = "eduplace")) {
+    //   return res.status(200).json({ message: "new user added" });
+    // }
+
     const user = await seomaildata.create(toSave);
     res.status(200).json({
       message: "data saved successfully",
@@ -54,7 +59,6 @@ exports.listOfTheEmails = async (req, res) => {
     const seodata = await seomaildata.findAll({
       where: {
         isDelete: false,
-        //isRegistration: true,
       },
     });
     if (seodata.length == 0) {
@@ -70,27 +74,6 @@ exports.listOfTheEmails = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-// exports.deleteUserCourse = async (req, res) => {
-//   const { userid, courseIdToDelete } = req.body;
-
-//   try {
-//     const user = await User.findByPk(userid);
-
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     let existingCourses = user.courseIds || [];
-//     const updatedCourses = existingCourses.filter(
-//       (course) => course.courseId !== courseIdToDelete
-//     );
-//     await user.update({ courseIds: updatedCourses });
-
-//     res.status(200).json({ message: "Course removed successfully", user });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
 
 // exports.login = async (req, res) => {
 //   const { email, password } = req.body;
