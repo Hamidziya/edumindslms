@@ -30,10 +30,6 @@ exports.editComment = async (req, res) => {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    // if(comment == 'newdata'){
-    //   console.log("comment edited with the data")
-    // }
-
     await comment.update(newContent, {
       where: {
         commentId: commentId,
