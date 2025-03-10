@@ -59,27 +59,6 @@ exports.createStudent = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-// exports.getRegistratedUsers = async (req, res) => {
-//   try {
-//     const users = await User.findAll({
-//       where: {
-//         isDelete: false,
-//         isRegistration: true,
-//       },
-//     });
-//     if (users.length == 0) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     res.status(200).json({
-//       message: "User List",
-//       status: "success",
-//       data: users,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
 
 exports.universityLogin = async (req, res) => {
   const { email, password } = req.body;
@@ -95,7 +74,6 @@ exports.universityLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { id: user.userId, role: user.role },
       process.env.JWT_SECRET,
@@ -106,7 +84,6 @@ exports.universityLogin = async (req, res) => {
       token,
       user,
       email,
-      // password,
     });
   } catch (err) {
     console.error("Error during login process:", err);
