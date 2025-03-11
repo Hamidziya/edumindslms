@@ -110,6 +110,10 @@ exports.sendOtp = async (req, res) => {
       where: { email: email },
     });
 
+    // const existingOtp = await uniOtp.findOne({
+    //   where: { email: email },
+    // });
+
     if (existingOtp) {
       existingOtp.otp = otp;
       existingOtp.date = new Date();
