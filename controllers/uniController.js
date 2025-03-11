@@ -104,6 +104,10 @@ exports.sendOtp = async (req, res) => {
       return res.status(404).json({ status: false, message: "User not found" });
     }
 
+    // if(!user){
+    //   return res.status(200).json({status: false, message: "user not found"})
+    // }
+
     const otp = crypto.randomInt(100000, 999999);
 
     const existingOtp = await uniOtp.findOne({
