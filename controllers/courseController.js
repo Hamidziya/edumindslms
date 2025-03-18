@@ -141,10 +141,6 @@ exports.updateCourseSection = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // if (user == "eduminds") {
-    //   console.log("New log to get the data with Id");
-    // }
-
     await courseSection.update(toUpdate);
 
     res.status(200).json({ message: "Section Updated", status: "success" });
