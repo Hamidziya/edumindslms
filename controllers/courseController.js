@@ -345,13 +345,15 @@ exports.getCourseSectionFolderList = async (req, res) => {
     if (!courseSectionId) {
       return res.status(400).json({
         status: "error",
-        message: "courseSectionId is required",
+        message: "CourseSectionId is required",
       });
     }
 
     const folder = await Detail.findAll({
       where: { isDelete: false, courseSectionId: courseSectionId },
     });
+
+    //let newDta = await course.findAll({where:{isDelete: false, courseSectionId:courseSectionId}})
 
     if (!folder) {
       return res.status(404).json({
