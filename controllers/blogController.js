@@ -175,9 +175,10 @@ exports.getBlogListEduplaced = async (req, res) => {
 
     if (!blogs || blogs.length === 0) {
       return res.status(404).json({ message: "Blog Not Found" });
-    } else {
-      console.log("New logging for the blog list");
     }
+    // } else {
+    //   console.log("New logging for the blog list");
+    // }
 
     res.status(200).json({
       message: "Blog List",
