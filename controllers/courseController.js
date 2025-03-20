@@ -353,8 +353,6 @@ exports.getCourseSectionFolderList = async (req, res) => {
       where: { isDelete: false, courseSectionId: courseSectionId },
     });
 
-    //let newDta = await course.findAll({where:{isDelete: false, courseSectionId:courseSectionId}})
-
     if (!folder) {
       return res.status(404).json({
         status: "error",
