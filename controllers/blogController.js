@@ -415,29 +415,29 @@ exports.saveReviewDummy = async (req, res) => {
   }
 };
 
-// exports.youtubelist = async (req, res) => {
-//   const list = req.body.blogId;
-//   try {
-//     let bloglist = await Blog.findAll({
-//       where: {
-//         isDelete: true,
-//       },
-//     });
+exports.youtubelist = async (req, res) => {
+  const list = req.body.blogId;
+  try {
+    let bloglist = await Blog.findAll({
+      where: {
+        isDelete: true,
+      },
+    });
 
-//     if (!bloglist) {
-//       return res.status(400).json({
-//         message: "No list found",
-//         status: "success",
-//         data: [],
-//       });
-//     }
+    if (!bloglist) {
+      return res.status(400).json({
+        message: "No list found",
+        status: "success",
+        data: [],
+      });
+    }
 
-//     return res.status(200).json({
-//       message: "List of the youtube blogs",
-//       status: "success",
-//       data: bloglist,
-//     });
-//   } catch (err) {
-//     res.status(500).json({ error: err.message });
-//   }
-// };
+    return res.status(200).json({
+      message: "List of the youtube blogs",
+      status: "success",
+      data: bloglist,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
