@@ -291,6 +291,8 @@ exports.updateCourseSectionFolder = [
         });
       }
 
+      //condition to manage the files in update folder
+
       if (req.files && req.files.length > 0) {
         let existingFiles = folder.files || [];
         const newFiles = req.files.map((file) => ({
