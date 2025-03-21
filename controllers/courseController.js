@@ -39,7 +39,7 @@ exports.updateCourse = [
       const course = await Course.findByPk(courseId);
 
       if (!course) {
-        return res.status(404).json({ message: "Course not found" });
+        return res.status(404).json({ message: "No course available" });
       }
       if (req.file) {
         toUpdate.courseImage = req.file.filename;
