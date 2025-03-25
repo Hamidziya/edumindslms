@@ -119,6 +119,8 @@ exports.getBlogListDashboard = async (req, res) => {
       // isActive: true,
     };
 
+    //new condition for blog type
+
     if (blogType) {
       filterCondition.blogType = blogType;
     }
