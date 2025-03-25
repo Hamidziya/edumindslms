@@ -380,13 +380,14 @@ exports.getReviewList = async (req, res) => {
     });
     if (!blogs) {
       return res.status(404).json({ message: "Blog Not Found" });
-    } else {
-      res.status(200).json({
-        message: "Blog list",
-        status: "success",
-        data: blogs,
-      });
     }
+    //  else {
+    //   res.status(200).json({
+    //     message: "Blog list",
+    //     status: "success",
+    //     data: blogs,
+    //   });
+    // }
 
     res.status(200).json({
       message: "Blog List",
