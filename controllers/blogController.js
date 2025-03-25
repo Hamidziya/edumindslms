@@ -5,6 +5,7 @@ const commonjs = require("../config/common");
 
 const fs = require("fs");
 const path = require("path");
+const { status } = require("express/lib/response");
 
 exports.saveBlog = [
   commonjs.fields([
@@ -118,8 +119,6 @@ exports.getBlogListDashboard = async (req, res) => {
       isDelete: false,
       // isActive: true,
     };
-
-    //new condition for blog type
 
     if (blogType) {
       filterCondition.blogType = blogType;
@@ -381,6 +380,12 @@ exports.getReviewList = async (req, res) => {
     });
     if (!blogs) {
       return res.status(404).json({ message: "Blog Not Found" });
+    } else {
+      res.status(200).json({
+        message: "Blog list",
+        status: "success",
+        data: blogs,
+      });
     }
 
     res.status(200).json({
