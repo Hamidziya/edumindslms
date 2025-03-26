@@ -1,9 +1,7 @@
 const Course = require("../models/Course");
 const coursesection = require("../models/courseSection");
-
 const Detail = require("../models/courseSectionFolder");
 const commonjs = require("../config/common");
-
 const fs = require("fs");
 const path = require("path");
 
@@ -37,6 +35,10 @@ exports.updateCourse = [
       const courseId = toUpdate.courseId;
 
       const course = await Course.findByPk(courseId);
+
+      // if (course) {
+      //   return res.status(400).json({ message: "New Course Available" });
+      // }
 
       if (!course) {
         return res.status(404).json({ message: "No course available" });
