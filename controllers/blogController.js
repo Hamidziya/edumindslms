@@ -310,14 +310,6 @@ exports.deleteReview = async (req, res) => {
       where: { blogId: blogId },
     });
 
-    // if (!updated) {
-    //   await Blog.findAll({
-    //     where: {
-    //       logId: blogId,
-    //     },
-    //   });
-    // }
-
     if (updated) {
       res.status(200).json({
         message: "Blog Deleted successfully",
