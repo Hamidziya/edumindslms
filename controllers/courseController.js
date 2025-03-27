@@ -36,10 +36,6 @@ exports.updateCourse = [
 
       const course = await Course.findByPk(courseId);
 
-      // if (course) {
-      //   return res.status(400).json({ message: "New Course Available" });
-      // }
-
       if (!course) {
         return res.status(404).json({ message: "No course available" });
       }
