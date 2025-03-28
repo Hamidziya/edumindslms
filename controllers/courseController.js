@@ -39,6 +39,10 @@ exports.updateCourse = [
       if (!course) {
         return res.status(404).json({ message: "No course available" });
       }
+
+      // if (!course) {
+      //   return res.status(404).json({ message: "No course available" });
+      // }
       if (req.file) {
         toUpdate.courseImage = req.file.filename;
       }
