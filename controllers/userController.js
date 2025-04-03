@@ -103,6 +103,13 @@ exports.getUsers = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // else{
+    //   if(users){
+    //     console.log("logger in user list")
+    //     res.status()
+    //   }
+    // }
+
     res.status(200).json({
       message: "User List",
       status: "success",
