@@ -249,6 +249,10 @@ exports.getUserCourse = async (req, res) => {
       },
     });
 
+    // if (!courses) {
+    //   console.log("New Data is organized");
+    // }
+
     const courseDetails = courses.map((course) => ({
       courseId: course.courseId,
       title: course.title,
@@ -345,12 +349,6 @@ exports.getUserCourseDetailNew = async (req, res) => {
         courseId: courseIds,
       },
     });
-
-    // const courses = await Course.findAll({
-    //   where: {
-    //     courseId: courseIds,
-    //   },
-    // });
 
     const courseDetails = courses.map((course) => ({
       courseId: course.courseId,
