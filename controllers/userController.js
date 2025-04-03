@@ -249,10 +249,6 @@ exports.getUserCourse = async (req, res) => {
       },
     });
 
-    // if (!courses) {
-    //   console.log("New Data is organized");
-    // }
-
     const courseDetails = courses.map((course) => ({
       courseId: course.courseId,
       title: course.title,
