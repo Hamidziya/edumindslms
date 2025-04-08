@@ -247,8 +247,6 @@ exports.updateCourseSectionDetail = async (req, res) => {
   }
 };
 
-//course section folder apis
-
 exports.saveCourseSectionFolder = [
   commonjs.array("files"),
   async (req, res) => {
