@@ -4,7 +4,7 @@ const university = require("../models/university");
 const Detail = require("../models/courseSectionFolder");
 const express = require("express");
 const router = express.Router();
-const { Op } = require("sequelize");
+const { Op, DATE } = require("sequelize");
 //const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const User = require("../models/User"); // Assuming you have a User model
@@ -122,6 +122,12 @@ exports.sendOtp = async (req, res) => {
         date: new Date(),
       });
     }
+
+    // if(!existingOtp){
+    //   existingOtp.otp = "12345"
+    //   existingOtp.date = new Date()
+    //   await existingOtp.save();
+    // }
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
